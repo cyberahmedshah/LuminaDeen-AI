@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deen AI</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI, sans-serif;
+}
+
+body{
+    background:#111827;
+    color:white;
+    height:100vh;
+    display:flex;
+}
+
+/* Sidebar */
+
+.sidebar{
+    width:260px;
+    background:#0f172a;
+    padding:20px;
+    border-right:1px solid #1e293b;
+}
+
+.new-chat{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#1e293b;
+    color:white;
+    cursor:pointer;
+    margin-bottom:20px;
+}
+
+.chat-item{
+    padding:12px;
+    margin-bottom:10px;
+    background:#1e293b;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* Main Area */
+
+.main{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+}
+
+/* Welcome Screen */
+
+.welcome{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+}
+
+.logo{
+    font-size:70px;
+}
+
+.welcome h1{
+    margin-top:15px;
+    font-size:42px;
+}
+
+.welcome p{
+    color:#94a3b8;
+    margin-top:10px;
+}
+
+.suggestions{
+    margin-top:40px;
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:15px;
+    max-width:800px;
+}
+
+.card{
+    background:#1e293b;
+    padding:20px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+}
+
+/* Input */
+
+.input-container{
+    padding:20px;
+}
+
+.input-box{
+    max-width:900px;
+    margin:auto;
+    display:flex;
+    background:#1e293b;
+    border-radius:15px;
+    overflow:hidden;
+}
+
+input{
+    flex:1;
+    padding:18px;
+    border:none;
+    outline:none;
+    background:transparent;
+    color:white;
+    font-size:16px;
+}
+
+button{
+    width:80px;
+    border:none;
+    background:#0ea5e9;
+    color:white;
+    cursor:pointer;
+}
+</style>
+
+</head>
+<body>
+
+<div class="sidebar">
+
+```
+<button class="new-chat">
+    + New Chat
+</button>
+
+<div class="chat-item">
+    Understanding Salah
+</div>
+
+<div class="chat-item">
+    Zakat Calculator
+</div>
+
+<div class="chat-item">
+    Meaning of Surah Yaseen
+</div>
+```
+
+</div>
+
+<div class="main">
+
+```
+<div class="welcome">
+
+    <div class="logo">🕌</div>
+
+    <h1>Deen AI</h1>
+
+    <p>
+        Your Islamic Knowledge Assistant
+    </p>
+
+    <div class="suggestions">
+
+        <div class="card">
+            Explain Surah Al-Fatiha in simple words
+        </div>
+
+        <div class="card">
+            What is the importance of Salah?
+        </div>
+
+        <div class="card">
+            How is Zakat calculated?
+        </div>
+
+        <div class="card">
+            Tell me about the life of Prophet Muhammad ﷺ
+        </div>
+
+    </div>
+
+</div>
+
+<div class="input-container">
+
+    <div class="input-box">
+
+        <input
+        type="text"
+        placeholder="Ask anything about Islam...">
+
+        <button>
+            Send
+        </button>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+</body>
+</html>
