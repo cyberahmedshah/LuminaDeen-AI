@@ -3,7 +3,7 @@ import json
 
 app = Flask(__name__)
 
-# load mind.json once when app starts
+
 with open("mind.json", "r") as f:
     data = json.load(f)
 
@@ -13,8 +13,8 @@ def home():
 
 @app.route('/ask', methods=['POST'])
 def ask():
-    question = request.json.get('question').lower()  # gets question from browser
-    answer = "I don't know the answer to that."      # default answer
+    question = request.json.get('question').lower()  
+    answer = "I don't know the answer to that."      
 
     if "name" in question:
         answer = data['name']
