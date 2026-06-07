@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LuminaDeen AI — Islamic Knowledge Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-primary: #0A1929;
+    --bg-secondary: #10243D;
+    --bg-tertiary: #0D1F35;
+    --accent: #16A34A;
+    --accent-light: #22C55E;
+    --accent-glow: rgba(22, 163, 74, 0.15);
+    --text-primary: #F8FAFC;
+    --text-muted: #94A3B8;
+    --text-dim: #64748B;
+    --border: rgba(255,255,255,0.08);
+    --border-accent: rgba(22, 163, 74, 0.3);
+    --glass-bg: rgba(16, 36, 61, 0.75);
+    --glass-border: rgba(255,255,255,0.10);
+    --user-bubble: rgba(22, 163, 74, 0.15);
+    --ai-bubble: rgba(16, 36, 61, 0.9);
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --shadow-glow: 0 0 40px rgba(22, 163, 74, 0.08);
+    --shadow-card: 0 4px 24px rgba(0,0,0,0.3);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    font-family: var(--font-body);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .geo-pattern {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='0.8'%3E%3Cpolygon points='60,10 110,35 110,85 60,110 10,85 10,35'/%3E%3Cpolygon points='60,25 95,42.5 95,77.5 60,95 25,77.5 25,42.5'/%3E%3Cpolygon points='60,40 80,50 80,70 60,80 40,70 40,50'/%3E%3Cline x1='60' y1='10' x2='60' y2='40'/%3E%3Cline x1='110' y1='35' x2='80' y2='50'/%3E%3Cline x1='110' y1='85' x2='80' y2='70'/%3E%3Cline x1='60' y1='110' x2='60' y2='80'/%3E%3Cline x1='10' y1='85' x2='40' y2='70'/%3E%3Cline x1='10' y1='35' x2='40' y2='50'/%3E%3Ccircle cx='60' cy='60' r='8'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 120px 120px;
+  }
+
+  #app {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    height: 100vh;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background: var(--glass-bg);
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: 0 1px 30px rgba(0,0,0,0.25);
+    padding: 0 24px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-mark {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #1a4a2e, #16A34A);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 20px rgba(22,163,74,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+    flex-shrink: 0;
+  }
+
+  .logo-mark svg { width: 22px; height: 22px; }
+
+  .header-titles { display: flex; flex-direction: column; }
+
+  .header-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  .header-subtitle {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .header-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: rgba(22, 163, 74, 0.12);
+    border: 1px solid rgba(22, 163, 74, 0.25);
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--accent-light);
+    font-weight: 400;
+    letter-spacing: 0.03em;
+  }
+
+  .header-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--accent-light);
+    border-radius: 50%;
+    box-shadow: 0 0 6px var(--accent-light);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  #chat-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 32px 24px 20px;
+    scroll-behavior: smooth;
+  }
+
+  #chat-area::-webkit-scrollbar { width: 4px; }
+  #chat-area::-webkit-scrollbar-track { background: transparent; }
+  #chat-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .messages-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  #welcome {
+    max-width: 680px;
+    margin: 40px auto 0;
+    text-align: center;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .crescent-wrap {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 24px;
+    background: radial-gradient(ellipse at 30% 30%, rgba(22,163,74,0.2), rgba(22,163,74,0.05));
+    border: 1px solid rgba(22, 163, 74, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 40px rgba(22, 163, 74, 0.12);
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  .crescent-wrap svg { width: 36px; height: 36px; }
+
+  .welcome-greeting {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: 0.01em;
+    margin-bottom: 12px;
+    line-height: 1.15;
+  }
+
+  .welcome-desc {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    max-width: 480px;
+    margin: 0 auto 36px;
+    font-weight: 300;
+  }
+
+  .suggestions-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  .suggestion-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 18px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .suggestion-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent-glow), transparent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .suggestion-card:hover {
+    border-color: var(--border-accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card), 0 0 20px rgba(22,163,74,0.08);
+  }
+
+  .suggestion-card:hover::before { opacity: 1; }
+  .suggestion-card:active { transform: translateY(0); }
+
+  .suggestion-icon {
+    width: 30px;
+    height: 30px;
+    background: rgba(22, 163, 74, 0.12);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    border: 1px solid rgba(22, 163, 74, 0.2);
+  }
+
+  .suggestion-icon svg { width: 15px; height: 15px; color: var(--accent-light); }
+
+  .suggestion-title {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.4;
+  }
+
+  .suggestion-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 3px;
+    font-weight: 300;
+  }
+
+  .message {
+    display: flex;
+    gap: 14px;
+    animation: fadeUp 0.35s ease both;
+  }
+
+  .message.user {
+    flex-direction: row-reverse;
+    align-self: flex-end;
+    max-width: 82%;
+  }
+
+  .message.ai { max-width: 92%; }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .avatar.ai-av {
+    background: linear-gradient(135deg, #1a4a2e, #16A34A);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 12px rgba(22,163,74,0.15);
+  }
+
+  .avatar.user-av {
+    background: rgba(148, 163, 184, 0.15);
+    border: 1px solid var(--border);
+  }
+
+  .avatar svg { width: 17px; height: 17px; }
+
+  .bubble {
+    padding: 14px 18px;
+    border-radius: var(--radius-lg);
+    line-height: 1.7;
+    font-size: 15px;
+    font-weight: 300;
+  }
+
+  .message.user .bubble {
+    background: var(--user-bubble);
+    border: 1px solid rgba(22, 163, 74, 0.25);
+    border-bottom-right-radius: var(--radius-sm);
+    color: var(--text-primary);
+  }
+
+  .message.ai .bubble {
+    background: var(--ai-bubble);
+    border: 1px solid var(--border);
+    border-bottom-left-radius: var(--radius-sm);
+    color: var(--text-primary);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+
+  .message-meta {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 5px;
+    padding: 0 4px;
+  }
+
+  .message.user .message-meta { text-align: right; }
+
+  .typing-indicator {
+    display: flex;
+    gap: 14px;
+    animation: fadeUp 0.35s ease both;
+  }
+
+  .typing-dots {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 14px 18px;
+    background: var(--ai-bubble);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    border-bottom-left-radius: var(--radius-sm);
+  }
+
+  .typing-dots span {
+    width: 7px;
+    height: 7px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    animation: bounce 1.2s ease-in-out infinite;
+  }
+
+  .typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.3s; }
+
+  @keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
+    40% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  #input-section {
+    padding: 16px 24px 24px;
+    background: linear-gradient(to top, var(--bg-primary) 70%, transparent);
+    flex-shrink: 0;
+  }
+
+  .input-wrap { max-width: 760px; margin: 0 auto; }
+
+  .input-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 10px 10px 10px 20px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+  }
+
+  .input-container:focus-within {
+    border-color: rgba(22, 163, 74, 0.4);
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.08), 0 2px 20px rgba(0,0,0,0.2);
+  }
+
+  #prompt {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.6;
+    resize: none;
+    min-height: 24px;
+    max-height: 160px;
+    padding: 4px 0;
+    overflow-y: auto;
+  }
+
+  #prompt::placeholder { color: var(--text-dim); }
+  #prompt::-webkit-scrollbar { display: none; }
+
+  #send-btn {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #16A34A, #22C55E);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px rgba(22, 163, 74, 0.3);
+  }
+
+  #send-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(22, 163, 74, 0.4);
+  }
+
+  #send-btn:active { transform: scale(0.96); }
+
+  #send-btn:disabled {
+    background: rgba(100,116,139,0.3);
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  #send-btn svg { width: 18px; height: 18px; }
+
+  .input-footer {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    letter-spacing: 0.02em;
+  }
+
+  .input-footer span {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: rgba(148, 163, 184, 0.6);
+    font-size: 12px;
+  }
+
+  @media (max-width: 600px) {
+    header { padding: 0 16px; }
+    .header-badge { display: none; }
+    #chat-area { padding: 20px 16px 16px; }
+    #input-section { padding: 12px 16px 20px; }
+    .suggestions-grid { grid-template-columns: 1fr; }
+    #welcome { margin-top: 20px; }
+    .welcome-greeting { font-size: 26px; }
+    .message.user { max-width: 92%; }
+  }
+
+  @media (max-width: 400px) {
+    .header-subtitle { display: none; }
+    .header-title { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="geo-pattern" aria-hidden="true"></div>
+
+<div id="app">
+
+  <header role="banner">
+    <div class="header-left">
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 3.5C12 3.5 8.5 6.5 8.5 11C8.5 14.5 10.5 17.5 12 18.5C13.5 17.5 15.5 14.5 15.5 11C15.5 6.5 12 3.5 12 3.5Z" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.8)" stroke-width="1.2" stroke-linejoin="round"/>
+          <path d="M12 3.5C10 5.5 7 8 7 11C7 14.5 9.5 17.5 12 18.5" stroke="rgba(255,255,255,0.4)" stroke-width="0.8" stroke-linecap="round"/>
+          <circle cx="12" cy="11" r="2" fill="rgba(255,255,255,0.9)"/>
+          <path d="M9 20.5h6M10.5 18.5v2M13.5 18.5v2" stroke="rgba(255,255,255,0.5)" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="header-titles">
+        <div class="header-title">LuminaDeen AI</div>
+        <div class="header-subtitle">Islamic Knowledge Assistant</div>
+      </div>
+    </div>
+    <div class="header-badge" role="status" aria-label="AI online">Online</div>
+  </header>
+
+  <main id="chat-area" role="main" aria-label="Chat conversation" aria-live="polite">
+    <div class="messages-inner" id="messages">
+
+      <div id="welcome" role="region" aria-label="Welcome">
+        <div class="crescent-wrap" aria-hidden="true">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6C13.5 6 10 9.5 10 14C10 18.5 13.5 22 18 22C19.5 22 20.9 21.6 22.1 20.9C20.7 22.2 18.9 23 17 23C12.6 23 9 19.4 9 15C9 10.6 12.6 7 17 7C17.7 7 18.4 7.1 19 7.3C18.7 6.4 18.4 6 18 6Z" fill="#22C55E" opacity="0.3"/>
+            <path d="M20 5C15.6 5 12 8.6 12 13C12 17.4 15.6 21 20 21C21.5 21 22.9 20.6 24.1 19.9C22.1 21.8 19.4 23 16.5 23C10.7 23 6 18.3 6 12.5C6 6.7 10.7 2 16.5 2C18.8 2 20.9 2.7 22.6 4C21.8 4.3 20.9 5 20 5Z" fill="#22C55E" opacity="0.9"/>
+            <circle cx="26" cy="8" r="1.5" fill="#22C55E" opacity="0.6"/>
+            <circle cx="29" cy="13" r="1" fill="#22C55E" opacity="0.4"/>
+          </svg>
+        </div>
+        <h1 class="welcome-greeting">Assalamu Alaikum</h1>
+        <p class="welcome-desc">Ask questions about Islam, Quran, Hadith, Seerah, Fiqh, and Islamic history. I am here to guide you with knowledge.</p>
+        <div class="suggestions-grid" role="list" aria-label="Suggested questions">
+          <button class="suggestion-card" role="listitem" onclick="sendSuggestion('Explain Surah Al-Fatiha — its meaning and significance in Islam')" aria-label="Suggestion: Explain Surah Al-Fatiha">
+            <div class="suggestion-icon" aria-hidden="true">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <path d="M3 4h10M3 8h7M3 12h5"/>
+                <path d="M12 10l2 2-2 2" opacity="0.7"/>
+              </svg>
+            </div>
+            <div class="suggestion-title">Explain Surah Al-Fatiha</div>
+            <div class="suggestion-sub">Meaning & significance</div>
+          </button>
+          <button class="suggestion-card" role="listitem" onclick="sendSuggestion('What is Tawakkul in Islam? How do we practice it in daily life?')" aria-label="Suggestion: What is Tawakkul">
+            <div class="suggestion-icon" aria-hidden="true">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <circle cx="8" cy="6" r="3"/>
+                <path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
+              </svg>
+            </div>
+            <div class="suggestion-title">What is Tawakkul?</div>
+            <div class="suggestion-sub">Trust & reliance on Allah</div>
+          </button>
+          <button class="suggestion-card" role="listitem" onclick="sendSuggestion('Tell me about the Seerah — the life of Prophet Muhammad ﷺ')" aria-label="Suggestion: Tell me about the Seerah">
+            <div class="suggestion-icon" aria-hidden="true">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <path d="M8 2L8 14M2 8l6-6 6 6"/>
+                <circle cx="8" cy="14" r="1" fill="currentColor" stroke="none"/>
+              </svg>
+            </div>
+            <div class="suggestion-title">Tell me about the Seerah</div>
+            <div class="suggestion-sub">Life of the Prophet ﷺ</div>
+          </button>
+          <button class="suggestion-card" role="listitem" onclick="sendSuggestion('Explain the Hadith about intentions — the Hadith of Niyyah — and its lessons')" aria-label="Suggestion: Explain a Hadith">
+            <div class="suggestion-icon" aria-hidden="true">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <rect x="2" y="2" width="12" height="12" rx="2"/>
+                <path d="M5 8h6M5 5.5h6M5 10.5h4"/>
+              </svg>
+            </div>
+            <div class="suggestion-title">Explain a Hadith</div>
+            <div class="suggestion-sub">Hadith of Niyyah & its lessons</div>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer id="input-section" role="contentinfo">
+    <div class="input-wrap">
+      <div class="input-container" role="form" aria-label="Message input">
+        <textarea
+          id="prompt"
+          placeholder="Ask anything about Islam..."
+          rows="1"
+          aria-label="Type your question"
+          aria-multiline="true"
+        ></textarea>
+        <button id="send-btn" aria-label="Send message" disabled>
+          <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 14V4M9 4L4.5 8.5M9 4L13.5 8.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="input-footer">
+        <span>بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</span>
+        &nbsp;·&nbsp; LuminaDeen AI may make errors. Verify with scholars.
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const prompt = document.getElementById('prompt');
+  const sendBtn = document.getElementById('send-btn');
+  const messagesEl = document.getElementById('messages');
+  const welcome = document.getElementById('welcome');
+  const chatArea = document.getElementById('chat-area');
+
+  let isTyping = false;
+  let messageCount = 0;
+
+const defaults = [
+    `Jazakallahu Khayran for your question. This topic requires deeper research. I recommend consulting a qualified Islamic scholar for an accurate answer. May Allah ﷻ grant us all beneficial knowledge. آمين`,
+
+    `This is a beautiful question. While I work to expand my knowledge base, I encourage you to explore authentic Islamic sources such as <strong style="color:var(--accent-light)">sunnah.com</strong> for Hadith and <strong style="color:var(--accent-light)">quran.com</strong> for Quranic references. May Allah guide us all. آمين`
+];
+
+  prompt.addEventListener('input', () => {
+    prompt.style.height = 'auto';
+    prompt.style.height = Math.min(prompt.scrollHeight, 160) + 'px';
+    sendBtn.disabled = !prompt.value.trim();
+  });
+
+  prompt.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      if (!sendBtn.disabled) handleSend();
+    }
+  });
+
+  sendBtn.addEventListener('click', handleSend);
+
+  function sendSuggestion(text) {
+    prompt.value = text;
+    prompt.dispatchEvent(new Event('input'));
+    handleSend();
+  }
+
+  function handleSend() {
+    const text = prompt.value.trim();
+    if (!text || isTyping) return;
+
+    if (welcome.parentNode) welcome.remove();
+
+    addUserMessage(text);
+    prompt.value = '';
+    prompt.style.height = 'auto';
+    sendBtn.disabled = true;
+
+    setTimeout(() => showTyping(), 350);
+    setTimeout(async () => {
+    removeTyping();
+    const reply = await generateResponse(text);
+    addAIMessage(reply);
+}, 1800 + Math.random() * 800);
+  }
+
+  function addUserMessage(text) {
+    messageCount++;
+    const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const el = document.createElement('div');
+    el.className = 'message user';
+    el.setAttribute('role', 'article');
+    el.setAttribute('aria-label', 'Your message');
+    el.innerHTML = `
+      <div class="avatar user-av" aria-hidden="true">
+        <svg viewBox="0 0 18 18" fill="none" stroke="rgba(148,163,184,0.8)" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="9" cy="6" r="3.5"/>
+          <path d="M2 16c0-3.9 3.1-7 7-7s7 3.1 7 7"/>
+        </svg>
+      </div>
+      <div>
+        <div class="bubble">${escapeHtml(text)}</div>
+        <div class="message-meta">${now}</div>
+      </div>`;
+    messagesEl.appendChild(el);
+    scrollToBottom();
+  }
+
+  function addAIMessage(text) {
+    messageCount++;
+    const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const el = document.createElement('div');
+    el.className = 'message ai';
+    el.setAttribute('role', 'article');
+    el.setAttribute('aria-label', 'LuminaDeen AI response');
+    el.innerHTML = `
+      <div class="avatar ai-av" aria-hidden="true">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 2.5C9 2.5 6.5 4.5 6.5 7.5C6.5 9.8 7.8 11.8 9 12.5C10.2 11.8 11.5 9.8 11.5 7.5C11.5 4.5 9 2.5 9 2.5Z" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.9)" stroke-width="1" stroke-linejoin="round"/>
+          <circle cx="9" cy="7.5" r="1.5" fill="white"/>
+          <path d="M7 14.5h4M8 12.5v2M10 12.5v2" stroke="rgba(255,255,255,0.6)" stroke-width="0.9" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="bubble">${text}</div>
+        <div class="message-meta">LuminaDeen AI · ${now}</div>
+      </div>`;
+    messagesEl.appendChild(el);
+    scrollToBottom();
+  }
+
+  let typingEl = null;
+
+  function showTyping() {
+    isTyping = true;
+    typingEl = document.createElement('div');
+    typingEl.className = 'typing-indicator';
+    typingEl.setAttribute('aria-label', 'AI is thinking');
+    typingEl.setAttribute('aria-live', 'polite');
+    typingEl.innerHTML = `
+      <div class="avatar ai-av" aria-hidden="true">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 2.5C9 2.5 6.5 4.5 6.5 7.5C6.5 9.8 7.8 11.8 9 12.5C10.2 11.8 11.5 9.8 11.5 7.5C11.5 4.5 9 2.5 9 2.5Z" fill="rgba(255,255,255,0.2)" stroke="rgba(255,255,255,0.9)" stroke-width="1" stroke-linejoin="round"/>
+          <circle cx="9" cy="7.5" r="1.5" fill="white"/>
+        </svg>
+      </div>
+      <div class="typing-dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>`;
+    messagesEl.appendChild(typingEl);
+    scrollToBottom();
+  }
+
+  function removeTyping() {
+    isTyping = false;
+    if (typingEl) { typingEl.remove(); typingEl = null; }
+  }
+
+  function scrollToBottom() {
+    chatArea.scrollTo({ top: chatArea.scrollHeight, behavior: 'smooth' });
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/\n/g,'<br>');
+  }
+
+  const responses = {
+    fatiha: `<strong style="color:var(--accent-light)">Surah Al-Fatiha</strong> — "The Opening" — is the first chapter of the Holy Quran and the most recited prayer in Islam, repeated seventeen times daily in our five prayers.<br><br>Its seven verses are a complete dialogue between the servant and Allah ﷻ. We begin by praising Him as <em>Ar-Rahman Ar-Rahim</em> (The Most Gracious, Most Merciful), acknowledge His sovereignty on the Day of Judgment, and declare our complete dependence: <em>"You alone we worship, and You alone we seek for help."</em><br><br>The closing verses are a supplication — a heartfelt plea to be guided on the Straight Path: the path of those Allah has blessed, not those who earned anger or went astray.<br><br>The Prophet ﷺ called it <em>Umm al-Quran</em> (Mother of the Quran) — it is a prayer, a praise, and a complete worldview in seven verses.`,
+
+    tawakkul: `<strong style="color:var(--accent-light)">Tawakkul</strong> (تَوَكُّل) is the Islamic concept of placing complete trust and reliance upon Allah ﷻ, while fulfilling one's own responsibilities with full effort.<br><br>It is beautifully illustrated in the hadith where a man asked the Prophet ﷺ whether he should tie his camel or leave it and trust Allah. The Prophet ﷺ replied: <em>"Tie your camel, then put your trust in Allah."</em><br><br><strong style="color:var(--text-primary);font-weight:500">How to practice Tawakkul:</strong><br>• Do your best in all affairs — it is not passivity<br>• Make sincere du'a and rely on Allah for the outcome<br>• Accept Allah's decree (qadar) with contentment<br>• Remember that Allah's plan is better than ours<br><br>Tawakkul is the believer's anchor — it brings peace in uncertainty, strength in hardship, and gratitude in blessing.`,
+
+    seerah: `The <strong style="color:var(--accent-light)">Seerah</strong> (السيرة النبوية) is the biography of the Prophet Muhammad ﷺ, the most complete account of any human life in history.<br><br><strong style="color:var(--text-primary);font-weight:500">Key chapters of his blessed life:</strong><br><br><strong>Birth & Early Life</strong> — Born in Makkah in 570 CE, orphaned young, raised by his grandfather and uncle Abu Talib. Known as <em>Al-Amin</em> — the Trustworthy.<br><br><strong>Prophethood</strong> — At 40, he received the first revelation in the Cave of Hira. He spent 13 years in Makkah calling people to Allah, facing persecution with patience.<br><br><strong>The Hijra</strong> — The migration to Madinah in 622 CE, which marks the beginning of the Islamic calendar — a turning point in history.<br><br><strong>Madinah & Legacy</strong> — He built a community based on justice, mercy, and brotherhood. At his passing in 632 CE, the entire Arabian Peninsula had embraced Islam.<br><br>The Seerah is our greatest practical guide — a living model of how to be human.`,
+
+    hadith: `The <strong style="color:var(--accent-light)">Hadith of Niyyah</strong> (Hadith of Intentions) is the first hadith in Imam Bukhari's and Imam Muslim's collections, considered one of the foundational principles of Islam.<br><br><em style="color:var(--text-muted);font-style:italic">"Actions are judged by intentions, and every person will get what they intended. Whoever migrates for the sake of Allah and His Messenger, his migration will be to Allah and His Messenger. Whoever migrates for worldly gain or to marry a woman, his migration is to whatever he migrated for."</em><br><strong style="font-size:13px;color:var(--text-dim)">— Prophet Muhammad ﷺ (Bukhari & Muslim)</strong><br><br><strong style="color:var(--text-primary);font-weight:500">Lessons:</strong><br>• The heart's intention transforms an ordinary act into worship<br>• Sincerity (ikhlas) is the soul of every deed<br>• The same action performed for different reasons yields different rewards<br>• We are accountable for what we truly intend, not just what we appear to do<br><br>Scholars say this single hadith encompasses one-third of the entire religion.`
+  };
+
+  async function generateResponse(text) {
+    const response = await fetch("/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question: text })
+    });
+    const data = await response.json();
+    return data.answer;
+  }
+</script>
+</body>
+</html>
