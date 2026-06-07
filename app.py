@@ -18,8 +18,8 @@ def ask():
 
     if "name" in question:
         answer = data['name']
-    if "purpose" in question:
-        answer = data['purpose']
+    if "your purpose" in question:
+        answer = data['your purpose']
     if "hey" in question:
         answer = data['hey']
 
