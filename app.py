@@ -67,7 +67,7 @@ def ask_gemini(question):
         )
         return response.text
     except Exception as e:
-        return f"Sorry, I am unable to help you as this question is not related to Islamic knowledge (Error: {str(e)})"
+        return f"Sorry, I am unable to help you as this question is not related to Islamic knowledge)"
 
 @app.route('/')
 def home():
