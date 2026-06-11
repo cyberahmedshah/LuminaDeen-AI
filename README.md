@@ -1,2 +1,3 @@
 # LuminaDeen-AI
-An Islamic dedicated Ai chatbot.
+
+## An Islamic dedicated Ai chatbot.
