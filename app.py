@@ -48,8 +48,8 @@ STRICT RULES you must always follow:
 def search_knowledge_base(question):
     """Check hardcoded mind.json first"""
     question = question.lower()
-    
-    if "name" in question:
+
+    if "your name" in question:
         return data.get('name')
     if "your purpose" in question:
         return data.get('your purpose')
