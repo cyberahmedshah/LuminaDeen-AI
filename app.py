@@ -55,6 +55,8 @@ def search_knowledge_base(question):
         return data.get('your purpose')
     if "hey" in question or "hello" in question or "salam" in question:
         return data.get('hey')
+    if "huffaz" in question and "yamamah" in question:
+        return data.get('Battle of Yamamah')
     
     return None  
 
