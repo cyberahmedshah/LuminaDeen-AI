@@ -92,3 +92,30 @@ luminadeen-ai/
 │   └── index.html      # Chat interface
 
 └── README.md
+
+---
+
+## 🎯 Vision & Roadmap
+
+LuminaDeen AI is built with one clear mission: **to remain a trustworthy, scholarly-grounded source of Islamic knowledge** — never drifting into unrelated topics, never fabricating references.
+
+Planned improvements:
+- 🌐 Multi-language support (Arabic, Urdu, and more)
+- 📱 Mobile-friendly responsive design
+- 🔍 Expanded local knowledge base with more authentic Q&A pairs
+- 🕌 Prayer time and Qibla direction integration
+- 📥 User feedback system for continuous improvement
+
+---
+
+## ⚠️ Disclaimer
+
+LuminaDeen AI is an educational tool meant to assist and guide. For matters requiring detailed religious rulings (Fatwa) or personal guidance, please consult a qualified Islamic scholar.
+
+---
+
+## 🤲 Acknowledgements
+
+Built with the intention of making Islamic knowledge more accessible — may it be a means of benefit (Sadaqah Jariyah) for all who use it.
+
+*"And say: My Lord, increase me in knowledge." — [Quran 20:114]*
