@@ -67,3 +67,17 @@ Whether you're curious about the basics of faith, the life of the Prophet ﷺ, I
 
 5. **Open in your browser**
 http://127.0.0.1:5000
+
+---
+
+## 💬 How It Works
+
+1. The user types a question into the chat interface.
+2. The app first checks a local knowledge base (`mind.json`) for instant, predefined answers.
+3. If no match is found, the question is passed to Gemini with a strict Islamic system prompt.
+4. The AI responds only if the question is Islam-related, always closing with a Quran or Hadith reference.
+5. Off-topic questions receive a polite redirect back to Islamic topics.
+
+---
+
+## 📁 Project Structure
