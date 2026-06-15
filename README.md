@@ -66,3 +66,4 @@ Whether you're curious about the basics of faith, the life of the Prophet ﷺ, I
 ```
 
 5. **Open in your browser**
+http://127.0.0.1:5000
