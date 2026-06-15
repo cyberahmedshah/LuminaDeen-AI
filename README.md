@@ -81,3 +81,14 @@ http://127.0.0.1:5000
 ---
 
 ## 📁 Project Structure
+luminadeen-ai/
+
+├── app.py              # Flask backend & AI logic
+
+├── mind.json           # Local knowledge base
+
+├── templates/
+
+│   └── index.html      # Chat interface
+
+└── README.md
