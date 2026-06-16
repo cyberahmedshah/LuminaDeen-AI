@@ -99,6 +99,8 @@ luminadeen-ai/
 
 LuminaDeen AI is built with one clear mission: **to remain a trustworthy, scholarly-grounded source of Islamic knowledge** — never drifting into unrelated topics, never fabricating references.
 
+* 🤖 Long-term vision: build a fully independent Islamic AI ecosystem, including our own models, infrastructure, and knowledge systems, ensuring complete control, transparency, and alignment with authentic Islamic scholarship
+
 Planned improvements:
 - 🌐 Multi-language support (Arabic, Urdu, and more)
 - 📱 Mobile-friendly responsive design
