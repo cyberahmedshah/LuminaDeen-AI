@@ -17,7 +17,7 @@ Whether you're curious about the basics of faith, the life of the Prophet ﷺ, I
 
 ## ✨ Features
 
-- 🤖 **AI-Powered Responses** — Built on Google's Gemini model for natural, helpful answers
+- 🤖 **AI-Powered Responses** — Built on an integrated model for natural, helpful answers
 - 📚 **Authentic References Only** — Every answer is backed by a Quranic verse or recognized Hadith collection (Sahih Bukhari, Sahih Muslim, Abu Dawud, Tirmidhi, Ibn Majah, Nasa'i)
 - 🎯 **Strictly Islamic Focus** — Stays on topic; politely redirects off-topic questions back to Islamic guidance
 - 🕊️ **Respectful & Etiquette-Driven** — Responses follow Islamic etiquette, including Bismillah where appropriate
