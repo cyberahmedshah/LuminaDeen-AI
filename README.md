@@ -112,7 +112,7 @@ Planned improvements:
 - 📱 Mobile-friendly responsive design
 - 🔍 Expanded local knowledge base with more authentic Q&A pairs
 - 🕌 Prayer time and Qibla direction integration
-- 📥 User feedback system for continuous improvement
+- 📥 User feedback system for continuous improvement 
 
 ---
 
