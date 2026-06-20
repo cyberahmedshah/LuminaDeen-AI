@@ -33,6 +33,7 @@ google-genai==2.8.0
 googleapis-common-protos==1.75.0
 grpcio==1.81.0
 grpcio-status==1.71.2
+gunicorn==26.0.0
 h11==0.16.0
 httpcore==1.0.9
 httplib2==0.20.2
@@ -56,6 +57,7 @@ MarkupSafe==3.0.3
 more-itertools==8.10.0
 netifaces==0.11.0
 oauthlib==3.2.0
+packaging==26.2
 platformdirs==4.10.0
 proto-plus==1.28.0
 protobuf==5.29.6
