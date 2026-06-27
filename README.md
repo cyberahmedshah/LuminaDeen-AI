@@ -70,6 +70,12 @@ http://127.0.0.1:5000
 
 ---
 
+### Web-App Link
+
+```
+https://luminadeen-ai.onrender.com
+```
+
 ## 💬 How It Works
 
 1. The user types a question into the chat interface.
