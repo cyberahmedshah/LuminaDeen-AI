@@ -130,6 +130,6 @@ LuminaDeen AI is an educational tool meant to assist and guide. For matters requ
 
 ## 🤲 Acknowledgements
 
-Built with the intention of making Islamic knowledge more accessible — may it be a means of benefit (Sadaqah Jariyah) for all who use it.
+Built with the intention of making Islamic knowledge more accessible — may it be a means of benefit (Sadaqah Jariyah) for all who use it
 
 *"And say: My Lord, increase me in knowledge." — [Quran 20:114]*
