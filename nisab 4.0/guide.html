@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zakat Guide | Nisab.ai</title>
+  <meta name="description" content="A comprehensive guide to understanding Zakat — who pays, what is zakatable, Nisab thresholds, and how to calculate your obligation." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="guide.css" />
+</head>
+<body>
+
+  <!-- NAVBAR — same as index, Guide link active -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;">
+          <span class="logo-icon">&#9632;</span>
+          <span class="logo-text">nisab<span class="logo-dot">.ai</span></span>
+        </a>
+      </div>
+      <div class="nav-links">
+        <a href="index.html#calculator" class="nav-link">Calculator</a>
+        <a href="index.html" class="nav-link">How It Works</a>
+        <a href="index.html#faq" class="nav-link">FAQ</a>
+        <!-- Guide is the current page — highlighted -->
+        <a href="guide.html" class="nav-link" style="color:#005041;font-weight:700;">Guide</a>
+      </div>
+      <div class="nav-cta">
+        <a href="index.html#calculator" class="btn-primary">Calculate Zakat</a>
+      </div>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html#calculator" class="mobile-link">Calculator</a>
+      <a href="index.html#how-it-works" class="mobile-link">How It Works</a>
+      <a href="index.html#faq" class="mobile-link">FAQ</a>
+      <a href="guide.html" class="mobile-link">Guide</a>
+    </div>
+  </nav>
+
+  <!-- GUIDE HERO -->
+  <section class="guide-hero">
+    <div class="hero-bg-shape shape1"></div>
+    <div class="hero-bg-shape shape2"></div>
+    <div class="guide-hero-content">
+      <div class="hero-badge">📖 Complete Reference Guide</div>
+      <h1 class="hero-title">Zakat Guide</h1>
+      <p class="hero-subtitle">Everything you need to know about Zakat — from who it applies to, what wealth is zakatable, Nisab thresholds, and special categories like agriculture and property.</p>
+    </div>
+  </section>
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="guide-toc-bar">
+    <div class="guide-toc-inner">
+      <span class="toc-label">Jump to:</span>
+      <a href="#guide-history" class="toc-link">Zakat History</a>
+      <a href="#guide-who" class="toc-link">Who Pays</a>
+      <a href="#guide-nisab" class="toc-link">Nisab</a>
+      <a href="#guide-assets" class="toc-link">Zakatable Assets</a>
+      <a href="#guide-agriculture" class="toc-link">Agriculture</a>
+      <a href="#guide-property" class="toc-link">Property</a>
+      <a href="#guide-recipients" class="toc-link">Recipients</a>
+    </div>
+  </div>
+
+  <main class="guide-main">
+
+    <!-- ======================================================
+         SECTION: History and Significance of Nisab
+         ====================================================== -->
+    <section class="guide-section" id="guide-history">
+      <div class="guide-section-inner">
+        <div class="guide-section-label">Section 01</div>
+        <h2 class="guide-section-title">The History and Significance of Nisab</h2>
+        <p class="guide-intro">The concept of Nisab is central to the Islamic obligation of Zakat. Understanding its historical origins provides deeper insight into the wisdom behind this threshold and its relevance to modern Muslims.</p>
+
+        <div class="guide-subsection">
+          <h3 class="guide-subsection-title">📜 Origins in the Prophetic Era</h3>
+          <p>The term "Nisab" (نِصَاب) comes from the Arabic root meaning "origin" or "starting point." In Islamic jurisprudence, it refers to the minimum amount of wealth one must possess before Zakat becomes obligatory.</p>
+          <p>During the lifetime of Prophet Muhammad ﷺ, the Nisab was established through divine revelation and prophetic tradition. The two primary standards were set:</p>
+          <div class="guide-cards-grid" style="margin-top:16px;">
+            <div class="guide-card">
+              <div class="guide-card-icon">🥇</div>
+              <h3>Gold Standard</h3>
+              <p>20 Dinars — approximately <strong>87.48 grams</strong> of pure gold.</p>
+            </div>
+            <div class="guide-card">
+              <div class="guide-card-icon">🥈</div>
+              <h3>Silver Standard</h3>
+              <p>200 Dirhams — approximately <strong>612.36 grams</strong> of pure silver.</p>
+            </div>
+          </div>
+          <div class="guide-hadith-box" style="margin-top:24px;">
+            <div class="guide-hadith-icon">📜</div>
+            <div>
+              <p class="guide-hadith-text">"No Zakat is due on less than five Uqiyyah of silver, and no Zakat is due on less than five Dhawdi (a camel load) of grain."</p>
+              <p class="guide-hadith-source">— Sahih al-Bukhari</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="guide-subsection">
+          <h3 class="guide-subsection-title">⚖️ The Wisdom Behind Two Standards</h3>
+          <p>Many people question why there are two different Nisab standards. The historical context provides clarity:</p>
+          <p>In 7th century Arabia, both gold and silver served as currency. The ratio between them was approximately 1:10 — one gold Dinar was worth about 10 silver Dirhams. Both standards represented roughly equivalent purchasing power.</p>
+          <p>Today, this ratio has drastically changed. Silver is now significantly cheaper relative to gold. This has led to scholarly discussions about which standard to apply.</p>
+        </div>
+
+        <div class="guide-subsection">
+          <h3 class="guide-subsection-title">🕌 Evolution Through Islamic Civilization</h3>
+          <div class="guide-info-box" style="margin-bottom:16px;">
+            <h4>The Rightly Guided Caliphs (632–661 CE)</h4>
+            <p>Abu Bakr رضي الله عنه famously declared war against those who refused to pay Zakat, demonstrating its non-negotiable status. Umar رضي الله عنه established the first formal Zakat administration, creating a treasury (Bayt al-Mal) for collection and distribution.</p>
+          </div>
+          <div class="guide-info-box" style="margin-bottom:16px;">
+            <h4>The Umayyad and Abbasid Periods</h4>
+            <p>As the Islamic empire expanded, scholars codified Zakat laws. The four major schools of thought (Madhabs) developed detailed rulings on Nisab, largely agreeing on the core thresholds while differing on some applications.</p>
+          </div>
+          <div class="guide-info-box">
+            <h4>The Ottoman Era</h4>
+            <p>The Ottoman Empire institutionalized Zakat collection as part of state administration. They maintained the gold and silver standards but also adapted to local currencies across their vast territories.</p>
+          </div>
+        </div>
+
+        <div class="guide-subsection">
+          <h3 class="guide-subsection-title">🌐 The Modern Challenge</h3>
+          <p>Today's Muslims face a unique challenge: the massive divergence between gold and silver values. Using the silver standard results in a much lower Nisab threshold, making Zakat obligatory on more people. Using the gold standard creates a higher threshold.</p>
+          <div class="nisab-comparison-grid" style="margin-top:20px;">
+            <div class="nisab-compare-card nisab-silver-compare">
+              <div class="nisab-compare-header">
+                <span class="nisab-compare-icon">🥈</span>
+                <h3>Silver Standard Argument</h3>
+              </div>
+              <ul class="nisab-compare-list">
+                <li>Benefits more poor and needy recipients</li>
+                <li>Follows the principle of caution (Ihtiyat)</li>
+                <li>Aligns with the spirit of wealth purification</li>
+              </ul>
+            </div>
+            <div class="nisab-compare-card nisab-gold-compare">
+              <div class="nisab-compare-header">
+                <span class="nisab-compare-icon">🥇</span>
+                <h3>Gold Standard Argument</h3>
+              </div>
+              <ul class="nisab-compare-list">
+                <li>More stable value over time</li>
+                <li>Better represents the original purchasing power</li>
+                <li>Less burdensome on modest earners</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="guide-subsection">
+          <h3 class="guide-subsection-title">🎓 Scholarly Positions</h3>
+          <p>Most contemporary scholars and Islamic finance institutions recommend:</p>
+          <div class="guide-cards-grid" style="margin-top:16px;">
+            <div class="guide-card">
+              <div class="guide-card-icon">1️⃣</div>
+              <h3>Conservative Approach</h3>
+              <p>Use the silver standard to maximize benefit for Zakat recipients.</p>
+            </div>
+            <div class="guide-card">
+              <div class="guide-card-icon">2️⃣</div>
+              <h3>Proportional Approach</h3>
+              <p>Consider the type of wealth — gold wealth against the gold Nisab, silver wealth against the silver Nisab.</p>
+            </div>
+            <div class="guide-card">
+              <div class="guide-card-icon">3️⃣</div>
+              <h3>Local Guidance</h3>
+              <p>Follow the prevailing scholarly opinion in your own community.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="guide-subsection">
+          <h3 class="guide-subsection-title">💻 Nisab in the Digital Age</h3>
+          <p>Our calculator at Nisab.ai uses both standards, allowing users to make an informed choice based on their scholarly guidance. We provide real-time metal prices converted to local currencies, ensuring accurate calculations regardless of where you live.</p>
+          <div class="guide-hadith-box" style="margin-top:20px;">
+            <div class="guide-hadith-icon">✨</div>
+            <div>
+              <p class="guide-hadith-text">The fundamental principle remains unchanged from the time of the Prophet ﷺ: Zakat purifies wealth and supports those in need. The Nisab threshold ensures this obligation falls only on those with sufficient means.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================
+         SECTION 2 (from Nisab.ai Guide): Who Must Pay Zakat
+         ====================================================== -->
+    <section class="guide-section guide-section-alt" id="guide-who">
+      <div class="guide-section-inner">
+        <div class="guide-section-label">Section 02</div>
+        <h2 class="guide-section-title">Who Must Pay Zakat?</h2>
+        <p class="guide-intro">Zakat is one of the five pillars of Islam. It is a mandatory act of worship and a financial obligation for eligible Muslims. Below are the conditions that make Zakat obligatory on a person.</p>
+
+        <div class="guide-cards-grid">
+          <div class="guide-card">
+            <div class="guide-card-icon">☪️</div>
+            <h3>Muslim</h3>
+            <p>Zakat is only obligatory on Muslims. Non-Muslims are not required to pay it, though they may give charity (Sadaqah) voluntarily.</p>
+          </div>
+          <div class="guide-card">
+            <div class="guide-card-icon">🧑</div>
+            <h3>Adult (Baaligh)</h3>
+            <p>Zakat is obligatory only upon adults who have reached the age of puberty (Baaligh). Children's wealth is generally not subject to Zakat according to the majority of scholars.</p>
+          </div>
+          <div class="guide-card">
+            <div class="guide-card-icon">🧠</div>
+            <h3>Sane (Aaqil)</h3>
+            <p>The person must be of sound mind. Scholars differ on whether Zakat is obligatory on the wealth of those with mental incapacity; the guardian may pay on their behalf as a precaution.</p>
+          </div>
+          <div class="guide-card">
+            <div class="guide-card-icon">💰</div>
+            <h3>Nisab Threshold Met</h3>
+            <p>The person must own wealth equal to or exceeding the Nisab threshold — the minimum amount of wealth above which Zakat becomes obligatory.</p>
+          </div>
+          <div class="guide-card">
+            <div class="guide-card-icon">📅</div>
+            <h3>Hawl Completed</h3>
+            <p>The wealth must have been owned for one complete lunar year (Hawl — approximately 354 days). Agricultural produce is an exception; Ushr is due at each harvest regardless of Hawl.</p>
+          </div>
+          <div class="guide-card">
+            <div class="guide-card-icon">🔓</div>
+            <h3>Free Ownership</h3>
+            <p>The person must have full, unencumbered ownership of the wealth. Debt-financed assets or wealth held in trust for others may be excluded.</p>
+          </div>
+        </div>
+
+        <div class="guide-hadith-box">
+          <div class="guide-hadith-icon">📜</div>
+          <div>
+            <p class="guide-hadith-text">"Take from their wealth a charity by which you purify them and cause them to increase."</p>
+            <p class="guide-hadith-source">— Surah At-Tawbah (9:103)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         SECTION 4 (from Nisab.ai Guide): Nisab Thresholds
+         ====================================================== -->
+    <section class="guide-section guide-section-alt" id="guide-nisab">
+      <div class="guide-section-inner">
+        <div class="guide-section-label">Section 03</div>
+        <h2 class="guide-section-title">Nisab — The Minimum Threshold</h2>
+        <p class="guide-intro">Nisab is the minimum amount of wealth a Muslim must possess before Zakat becomes obligatory. There are two Nisab standards, both established from the Prophet Muhammad ﷺ's teachings.</p>
+
+        <div class="nisab-comparison-grid">
+          <div class="nisab-compare-card nisab-gold-compare">
+            <div class="nisab-compare-header">
+              <span class="nisab-compare-icon">🥇</span>
+              <h3>Gold Nisab</h3>
+            </div>
+            <div class="nisab-compare-value">87.48 grams</div>
+            <ul class="nisab-compare-list">
+              <li>Based on the weight of pure gold</li>
+              <li>Currently worth more in monetary value</li>
+              <li>Results in a higher threshold (fewer people liable)</li>
+              <li>Used when a person owns primarily gold</li>
+            </ul>
+            <div class="nisab-compare-note">Most contemporary scholars recommend this for gold holders.</div>
+          </div>
+          <div class="nisab-compare-card nisab-silver-compare">
+            <div class="nisab-compare-header">
+              <span class="nisab-compare-icon">🥈</span>
+              <h3>Silver Nisab</h3>
+            </div>
+            <div class="nisab-compare-value">612.36 grams</div>
+            <ul class="nisab-compare-list">
+              <li>Based on the weight of pure silver</li>
+              <li>Lower monetary threshold due to silver prices</li>
+              <li>More inclusive — more people fall under obligation</li>
+              <li>Many scholars recommend for cash/savings</li>
+            </ul>
+            <div class="nisab-compare-note">Preferred by scholars for wider charitable coverage of the poor.</div>
+          </div>
+        </div>
+
+        <div class="guide-info-box">
+          <h4>🤔 Which Nisab Should I Use?</h4>
+          <p>Scholars differ, but a common recommendation is: if you own gold, use the gold Nisab for your gold; for other wealth (cash, savings, business), use the silver Nisab. This broader approach ensures more Zakat reaches those in need. Always consult a trusted scholar for your specific situation.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         SECTION 5 (from Nisab.ai Guide): Zakatable Assets
+         ====================================================== -->
+    <section class="guide-section" id="guide-assets">
+      <div class="guide-section-inner">
+        <div class="guide-section-label">Section 04</div>
+        <h2 class="guide-section-title">What Assets Are Zakatable?</h2>
+        <p class="guide-intro">Not all wealth is subject to Zakat. Islamic scholarship distinguishes between assets that are zakatable (productive/liquid wealth) and those that are not (personal use assets).</p>
+
+        <div class="guide-two-col">
+          <div class="guide-col-block guide-col-yes">
+            <h3 class="guide-col-title">✅ Zakatable Assets</h3>
+            <div class="guide-asset-list">
+              <div class="guide-asset-item">
+                <span class="guide-asset-icon">💵</span>
+                <div>
+                  <strong>Cash &amp; Bank Balances</strong>
+                  <p>All cash at home, current accounts, savings accounts. Rate: 2.5%</p>
+                </div>
+              </div>
+              <div class="guide-asset-item">
+                <span class="guide-asset-icon">🥇</span>
+                <div>
+                  <strong>Gold &amp; Silver</strong>
+                  <p>All gold and silver jewellery, coins, and bars — whether worn or stored. Rate: 2.5% on market value</p>
+                </div>
+              </div>
+              <div class="guide-asset-item">
+                <span class="guide-asset-icon">📈</span>
+                <div>
+                  <strong>Stocks &amp; Investments</strong>
+                  <p>Shares held as long-term investments. Rate: 2.5% on market value (or underlying zakatable assets per share)</p>
+                </div>
+              </div>
+              <div class="guide-asset-item">
+                <span class="guide-asset-icon">🏢</span>
+                <div>
+                  <strong>Business Assets</strong>
+                  <p>Cash held in business, trade inventory/stock at market value. Rate: 2.5%</p>
+                </div>
+              </div>
+              <div class="guide-asset-item">
+                <span class="guide-asset-icon">🌾</span>
+                <div>
+                  <strong>Agricultural Produce</strong>
+                  <p>Crops and harvest at time of harvest. Rate: 10% (natural irrigation), 5% (artificial), 7.5% (mixed). No Hawl required.</p>
+                </div>
+              </div>
+              <div class="guide-asset-item">
+                <span class="guide-asset-icon">🏠</span>
+                <div>
+                  <strong>Investment Property</strong>
+                  <p>Property held for resale: 2.5% on full market value. Rental property: 2.5% on accumulated net rental income.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="guide-col-block guide-col-no">
+            <h3 class="guide-col-title">❌ Non-Zakatable Assets</h3>
+            <div class="guide-asset-list">
+              <div class="guide-asset-item">
+                <span class="guide-asset-icon">🏠</span>
+                <div>
+                  <strong>Primary Residence</strong>
+                  <p>The home you live in is not zakatable, regardless of value.</p>
+                </div>
+              </div>
+              <div class="guide-asset-item">
+                <span class="guide-asset-icon">🚗</span>
+                <div>
+                  <strong>Personal Vehicle</strong>
+                  <p>Your car, motorcycle, or transport used for personal use is exempt.</p>
+                </div>
+              </div>
+              <div class="guide-asset-item">
+                <span class="guide-asset-icon">🛋️</span>
+                <div>
+                  <strong>Household Furniture &amp; Appliances</strong>
+                  <p>Items used for daily household needs are not zakatable.</p>
+                </div>
+              </div>
+              <div class="guide-asset-item">
+                <span class="guide-asset-icon">👗</span>
+                <div>
+                  <strong>Personal Clothing</strong>
+                  <p>Clothes worn for personal use — including gold/silver jewellery for personal use (per some schools; others include it).</p>
+                </div>
+              </div>
+              <div class="guide-asset-item">
+                <span class="guide-asset-icon">🏭</span>
+                <div>
+                  <strong>Business Equipment</strong>
+                  <p>Machinery, tools, and equipment used in the production process (not for sale) are exempt.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         SECTION 6 (from Nisab.ai Guide): Agriculture (Ushr)
+         ====================================================== -->
+    <section class="guide-section guide-section-alt" id="guide-agriculture">
+      <div class="guide-section-inner">
+        <div class="guide-section-label">Section 05</div>
+        <h2 class="guide-section-title">Zakat on Agriculture (Ushr)</h2>
+        <p class="guide-intro">Zakat on agricultural produce is known as Ushr. Unlike other forms of Zakat, Ushr is due at each harvest and does not require a full lunar year (Hawl) to pass. The rate depends on the method of irrigation.</p>
+
+        <div class="ushr-rates-grid">
+          <div class="ushr-rate-card">
+            <div class="ushr-rate-icon">🌧️</div>
+            <h3>Natural Irrigation</h3>
+            <div class="ushr-rate-value">10%</div>
+            <p>Rain, river, spring, or any naturally flowing water. Since no additional cost is incurred by the farmer, the higher rate applies.</p>
+            <div class="ushr-example">Example: If crop value = ₨100,000 → Ushr = ₨10,000</div>
+          </div>
+          <div class="ushr-rate-card ushr-mixed">
+            <div class="ushr-rate-icon">⚙️+🌧️</div>
+            <h3>Mixed Irrigation</h3>
+            <div class="ushr-rate-value">7.5%</div>
+            <p>When both natural and artificial methods are used equally throughout the growing season, the average rate of 7.5% applies.</p>
+            <div class="ushr-example">Example: If crop value = ₨100,000 → Ushr = ₨7,500</div>
+          </div>
+          <div class="ushr-rate-card ushr-artificial">
+            <div class="ushr-rate-icon">⚙️</div>
+            <h3>Artificial Irrigation</h3>
+            <div class="ushr-rate-value">5%</div>
+            <p>Pump, well, purchased water, or any irrigation requiring ongoing cost and effort by the farmer. The reduced rate accounts for the expenses incurred.</p>
+            <div class="ushr-example">Example: If crop value = ₨100,000 → Ushr = ₨5,000</div>
+          </div>
+        </div>
+
+        <div class="guide-info-box">
+          <h4>📌 Key Points about Ushr</h4>
+          <ul class="guide-info-list">
+            <li>No Hawl (lunar year) is required — Ushr is due at every harvest.</li>
+            <li>Applies to all types of agricultural produce: grains, fruits, vegetables.</li>
+            <li>There is a minimum quantity threshold (Nisab for crops = 653 kg of grain equivalent in most opinions).</li>
+            <li>Production costs (seeds, labour, fertiliser) are not deducted before calculating Ushr according to the majority opinion.</li>
+            <li>Ushr is calculated on the gross value of the crop at harvest time.</li>
+          </ul>
+        </div>
+
+        <div class="guide-hadith-box">
+          <div class="guide-hadith-icon">📜</div>
+          <div>
+            <p class="guide-hadith-text">"On that which is watered by the sky and springs, or is flood-irrigated, the Ushr (one-tenth) is due; and on that which is irrigated by the well, half the Ushr."</p>
+            <p class="guide-hadith-source">— Sahih al-Bukhari (1483)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         ADDITIONAL SECTION: Zakat on Property (new)
+         Req #6: Add additional section on Zakat on Property
+         ====================================================== -->
+    <section class="guide-section" id="guide-property">
+      <div class="guide-section-inner">
+        <div class="guide-section-label">Section 06</div>
+        <h2 class="guide-section-title">Zakat on Property</h2>
+        <p class="guide-intro">Property (real estate) is one of the areas where Islamic scholars have different scholarly opinions. The Zakat treatment depends entirely on the <strong>intent and use</strong> of the property.</p>
+
+        <div class="property-intent-grid">
+          <div class="property-card property-card-resale">
+            <div class="property-card-header">
+              <span class="property-card-icon">🏗️</span>
+              <h3>Property for Resale</h3>
+              <span class="property-rate-badge">2.5%</span>
+            </div>
+            <p>If you purchased property <strong>with the intention of reselling it</strong> (trade/investment), it is treated like trade inventory and Zakat is due at 2.5% of its current market value after one lunar year.</p>
+            <div class="property-example">
+              <strong>Example:</strong> A plot bought at ₨5,000,000 now valued at ₨7,000,000 → Zakat = ₨7,000,000 × 2.5% = ₨175,000
+            </div>
+          </div>
+          <div class="property-card property-card-rental">
+            <div class="property-card-header">
+              <span class="property-card-icon">🏘️</span>
+              <h3>Rental Property</h3>
+              <span class="property-rate-badge">2.5% on income</span>
+            </div>
+            <p>If the property is rented out for income, most scholars hold that Zakat is <strong>not due on the property itself</strong>, but the accumulated rental income (after expenses) is zakatable at 2.5% if it remains above Nisab at the end of the Hawl.</p>
+            <div class="property-example">
+              <strong>Example:</strong> Annual rental income = ₨240,000. Expenses = ₨40,000. Net remaining = ₨200,000 → Zakat = ₨5,000
+            </div>
+          </div>
+          <div class="property-card property-card-personal">
+            <div class="property-card-header">
+              <span class="property-card-icon">🏠</span>
+              <h3>Personal Use Property</h3>
+              <span class="property-rate-badge exempt-badge">Exempt</span>
+            </div>
+            <p>Your <strong>primary residence</strong> or any property used personally (holiday home for personal use, family home) is <strong>completely exempt</strong> from Zakat. This is agreed upon across all major schools of jurisprudence.</p>
+            <div class="property-example">
+              <strong>Note:</strong> Even if your home is worth millions, no Zakat is due on it as long as it is your personal residence.
+            </div>
+          </div>
+        </div>
+
+        <div class="guide-info-box">
+          <h4>⚠️ Important Scholarly Note</h4>
+          <p>There is scholarly disagreement on property Zakat, particularly for residential properties held as investments. Some scholars say 2.5% applies to the full value; others restrict Zakat only to income generated. We recommend always consulting a qualified Islamic scholar (Mufti) for property matters, as the ruling can vary based on your madhab (school of jurisprudence) and specific circumstances.</p>
+        </div>
+
+        <div class="guide-hadith-box">
+          <div class="guide-hadith-icon">📜</div>
+          <div>
+            <p class="guide-hadith-text">"There is no Zakat on a house a man lives in, on servants he uses, or on a horse he rides."</p>
+            <p class="guide-hadith-source">— Reported by Ibn Hazm, Al-Muhalla</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         SECTION (from Nisab.ai Guide #6): 8 Recipients of Zakat
+         ====================================================== -->
+    <section class="guide-section guide-section-alt" id="guide-recipients">
+      <div class="guide-section-inner">
+        <div class="guide-section-label">Section 07</div>
+        <h2 class="guide-section-title">The 8 Recipients of Zakat</h2>
+        <p class="guide-intro">Allah ﷻ has specified exactly who may receive Zakat in the Quran. These 8 categories are fixed and cannot be changed.</p>
+
+        <div class="guide-hadith-box" style="margin-bottom:32px;">
+          <div class="guide-hadith-icon">📜</div>
+          <div>
+            <p class="guide-hadith-text">"Zakat is only for the poor, the needy, those employed to collect it, those whose hearts are to be reconciled, for freeing captives, for those in debt, for the cause of Allah, and for the stranded traveller."</p>
+            <p class="guide-hadith-source">— Surah At-Tawbah (9:60)</p>
+          </div>
+        </div>
+
+        <div class="recipients-grid">
+          <div class="recipient-card">
+            <div class="recipient-number">01</div>
+            <div class="recipient-icon">🤲</div>
+            <h4>Al-Fuqara</h4>
+            <p>The poor — those with little or no income, unable to meet basic needs.</p>
+          </div>
+          <div class="recipient-card">
+            <div class="recipient-number">02</div>
+            <div class="recipient-icon">🍞</div>
+            <h4>Al-Masakin</h4>
+            <p>The needy — those who have some income but it is insufficient to cover essential needs.</p>
+          </div>
+          <div class="recipient-card">
+            <div class="recipient-number">03</div>
+            <div class="recipient-icon">⚖️</div>
+            <h4>Al-Amileen</h4>
+            <p>Zakat collectors and administrators — those employed to collect and distribute Zakat.</p>
+          </div>
+          <div class="recipient-card">
+            <div class="recipient-number">04</div>
+            <div class="recipient-icon">❤️</div>
+            <h4>Al-Mu'allafatu Qulubuhum</h4>
+            <p>Those whose hearts are to be reconciled to Islam — new Muslims or those who may be brought closer to the faith.</p>
+          </div>
+          <div class="recipient-card">
+            <div class="recipient-number">05</div>
+            <div class="recipient-icon">🔓</div>
+            <h4>Fir-Riqab</h4>
+            <p>Freeing of captives and slaves — historically for manumission; contemporary applications include freeing people from oppression.</p>
+          </div>
+          <div class="recipient-card">
+            <div class="recipient-number">06</div>
+            <div class="recipient-icon">💳</div>
+            <h4>Al-Gharimin</h4>
+            <p>Those in debt — people who have borrowed for legitimate needs and are unable to repay.</p>
+          </div>
+          <div class="recipient-card">
+            <div class="recipient-number">07</div>
+            <div class="recipient-icon">🌍</div>
+            <h4>Fi Sabilillah</h4>
+            <p>In the cause of Allah — supporting efforts that serve Islam and the Muslim community, including education and charity work.</p>
+          </div>
+          <div class="recipient-card">
+            <div class="recipient-number">08</div>
+            <div class="recipient-icon">🧳</div>
+            <h4>Ibnus Sabil</h4>
+            <p>The stranded traveller — a wayfarer who is far from home and without sufficient funds, even if wealthy at home.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CTA to calculator -->
+    <section class="guide-cta-section">
+      <div class="guide-cta-inner">
+        <h2>Ready to Calculate Your Zakat?</h2>
+        <p>Use our free, Sharia-compliant calculator to determine your exact Zakat obligation.</p>
+        <a href="index.html#calculator" class="btn-primary btn-large">Calculate My Zakat →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER
+       Req #6: "Zakat on Stocks" replaced with "Guide" in Learn section -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <span class="logo-icon">&#9632;</span>
+          <span class="logo-text">nisab<span class="logo-dot">.ai</span></span>
+        </div>
+        <p class="footer-tagline">Purify your wealth. Fulfill your obligation. Trust the calculation.</p>
+      </div>
+      <div class="footer-links-grid">
+        <div class="footer-col">
+          <h4 class="footer-col-title">Tools</h4>
+          <a href="index.html#calculator" class="footer-link">Zakat Calculator</a>
+          <!-- <a href="#" class="footer-link">Gold Price Today</a> -->
+          <a href="index.html#" class="footer-link">Nisab Threshold</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title">Learn</h4>
+          <a href="index.html#how-it-works"  class="footer-link">How Zakat Works</a>
+          <a href="index.html#faq" class="footer-link">FAQ</a>
+          <!-- Req #6: Replaced "Zakat on Stocks" with "Guide" -->
+          <a href="guide.html" class="footer-link">Guide</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title">Team</h4>
+          <!-- <a href="#" class="footer-link">Muhaimin Areef</a> -->
+          <p class="footer-link">Muhaimin Areef</p>
+          <p class="footer-link">Ameer Hamza</p>
+          <p class="footer-link">Ahsan Ali</p>
+          <p class="footer-link">Muhammed Ahmad</p>
+          <p class="footer-link">Muhammed Hussnain</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Nisab.ai — For educational purposes. Always consult a qualified Islamic scholar.</p>
+    </div>
+  </footer>
+
+  <script>
+    /* Simple hamburger toggle for guide page */
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn  = document.getElementById('hamburgerBtn');
+      var menu = document.getElementById('mobileMenu');
+      if (btn && menu) {
+        btn.addEventListener('click', function() { menu.classList.toggle('open'); });
+        menu.querySelectorAll('.mobile-link').forEach(function(l) {
+          l.addEventListener('click', function() { menu.classList.remove('open'); });
+        });
+      }
+
+      /* Scroll animations for guide cards */
+      var cards = document.querySelectorAll('.guide-card, .ushr-rate-card, .property-card, .recipient-card, .nisab-compare-card');
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            e.target.style.opacity   = '1';
+            e.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+      cards.forEach(function(c) {
+        c.style.opacity    = '0';
+        c.style.transform  = 'translateY(20px)';
+        c.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        obs.observe(c);
+      });
+    });
+  </script>
+</body>
+</html>

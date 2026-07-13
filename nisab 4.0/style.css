@@ -1,0 +1,1988 @@
+/* ========================================
+   NISAB.AI CLONE — STYLESHEET
+   Clean, modern Islamic finance aesthetic
+   ======================================== */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: #f8f7f3;
+  color: #1a1a1a;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ==============================
+   TYPOGRAPHY
+   ============================== */
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+  line-height: 1.2;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ==============================
+   NAVBAR
+   ============================== */
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: rgba(248, 247, 243, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #e8e4dc;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  cursor: pointer;
+}
+
+.logo-icon {
+  color: #005041;
+  font-size: 14px;
+}
+
+.logo-dot {
+  color: #005041;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: #005041;
+}
+
+.nav-cta {
+  display: flex;
+  align-items: center;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: #1a1a1a;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  padding: 12px 24px 16px;
+  border-top: 1px solid #e8e4dc;
+  background-color: #f8f7f3;
+}
+
+.mobile-menu.open {
+  display: flex;
+}
+
+.mobile-link {
+  padding: 12px 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  border-bottom: 1px solid #f0ede6;
+}
+
+.mobile-link:last-child {
+  border-bottom: none;
+}
+
+/* ==============================
+   BUTTONS
+   ============================== */
+
+.btn-primary {
+  background-color: #005041;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  display: inline-block;
+}
+
+.btn-primary:hover {
+  background-color: #003d30;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-primary.btn-large {
+  padding: 14px 32px;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+.btn-ghost {
+  background-color: transparent;
+  color: #005041;
+  border: 2px solid #005041;
+  border-radius: 10px;
+  padding: 12px 30px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-block;
+}
+
+.btn-ghost:hover {
+  background-color: #005041;
+  color: #fff;
+}
+
+.btn-calculate {
+  width: 100%;
+  background-color: #005041;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 24px;
+  transition: background-color 0.2s, transform 0.1s;
+  letter-spacing: 0.3px;
+}
+
+.btn-calculate:hover {
+  background-color: #003d30;
+}
+
+.btn-calculate:active {
+  transform: scale(0.99);
+}
+
+.btn-reset {
+  width: 100%;
+  background-color: transparent;
+  color: #888;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.2s;
+}
+
+.btn-reset:hover {
+  background-color: #f0ede6;
+  color: #555;
+}
+
+/* ==============================
+   HERO
+   ============================== */
+
+.hero {
+  position: relative;
+  padding: 140px 24px 80px;
+  overflow: hidden;
+  background-color: #f8f7f3;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero-bg-shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.06;
+}
+
+.shape1 {
+  width: 500px;
+  height: 500px;
+  background-color: #005041;
+  top: -150px;
+  right: -100px;
+}
+
+.shape2 {
+  width: 300px;
+  height: 300px;
+  background-color: #c9a84c;
+  bottom: -80px;
+  left: -80px;
+}
+
+.hero-container {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-badge {
+  display: inline-block;
+  background-color: #e8f5f2;
+  color: #005041;
+  border: 1px solid #b8ddd6;
+  border-radius: 50px;
+  padding: 6px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 28px;
+  letter-spacing: 0.2px;
+}
+
+.hero-title {
+  font-size: 56px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.hero-title-accent {
+  color: #005041;
+}
+
+.hero-subtitle {
+  font-size: 18px;
+  color: #666;
+  max-width: 540px;
+  margin: 0 auto 36px;
+  font-weight: 400;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 52px;
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  background-color: #fff;
+  border: 1px solid #e8e4dc;
+  border-radius: 16px;
+  padding: 24px 40px;
+  display: inline-flex;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #005041;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #888;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 40px;
+  background-color: #e8e4dc;
+}
+
+/* ==============================
+   SECTIONS
+   ============================== */
+
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 52px;
+}
+
+.section-title {
+  font-size: 40px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+}
+
+.section-subtitle {
+  font-size: 17px;
+  color: #666;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+/* ==============================
+   CALCULATOR
+   ============================== */
+
+.calculator-section {
+  background-color: #fff;
+}
+
+.calculator-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Form */
+.calculator-form {
+  background-color: #f8f7f3;
+  border: 1px solid #e8e4dc;
+  border-radius: 16px;
+  padding: 32px;
+}
+
+.form-group-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.form-select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  background-color: #fff;
+  color: #1a1a1a;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 36px;
+}
+
+.form-select:focus {
+  border-color: #005041;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-prefix {
+  position: absolute;
+  left: 12px;
+  font-size: 14px;
+  color: #888;
+  font-weight: 500;
+  pointer-events: none;
+  user-select: none;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 14px 10px 32px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  background-color: #fff;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus {
+  border-color: #005041;
+  box-shadow: 0 0 0 3px rgba(0, 80, 65, 0.08);
+}
+
+.form-input::-webkit-inner-spin-button,
+.form-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+/* Category Blocks */
+.asset-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.category-block {
+  border: 1px solid #e8e4dc;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.category-header:hover {
+  background-color: #f8f7f3;
+}
+
+.category-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.category-icon {
+  font-size: 18px;
+}
+
+.category-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.category-toggle {
+  color: #888;
+  font-size: 12px;
+  transition: transform 0.3s;
+}
+
+.category-toggle.open {
+  transform: rotate(180deg);
+}
+
+.category-body {
+  padding: 18px 18px 10px;
+  border-top: 1px solid #f0ede6;
+  display: none;
+}
+
+.category-body.open {
+  display: block;
+}
+
+/* ==============================
+   RESULTS PANEL
+   ============================== */
+
+.calculator-results {
+  background-color: #f8f7f3;
+  border: 1px solid #e8e4dc;
+  border-radius: 16px;
+  padding: 32px;
+  position: sticky;
+  top: 88px;
+}
+
+.results-placeholder {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.placeholder-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.placeholder-text {
+  font-size: 15px;
+  color: #888;
+  line-height: 1.6;
+}
+
+.result-nisab-status {
+  margin-bottom: 20px;
+  padding: 16px;
+  border-radius: 10px;
+  background-color: #e8f5f2;
+  border: 1px solid #b8ddd6;
+}
+
+.result-nisab-status.not-reached {
+  background-color: #fff4e6;
+  border-color: #ffd699;
+}
+
+.nisab-badge {
+  display: inline-block;
+  background-color: #005041;
+  color: #fff;
+  border-radius: 50px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.nisab-badge.not-reached {
+  background-color: #cc7700;
+}
+
+.nisab-description {
+  font-size: 13px;
+  color: #333;
+}
+
+.result-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e8e4dc;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.result-row-net {
+  background-color: #f0ede6;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-top: 4px;
+}
+
+.result-label {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+.result-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.result-value.deduction {
+  color: #c0392b;
+}
+
+.result-value.net {
+  color: #005041;
+  font-size: 15px;
+}
+
+.result-zakat-due {
+  text-align: center;
+  background-color: #005041;
+  color: #fff;
+  border-radius: 12px;
+  padding: 24px 20px;
+  margin-bottom: 24px;
+}
+
+.zakat-due-label {
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.zakat-due-amount {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.zakat-due-currency {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.result-breakdown {
+  margin-bottom: 20px;
+}
+
+.breakdown-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+  font-family: 'DM Sans', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #f0ede6;
+}
+
+.breakdown-item-name {
+  font-size: 13px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breakdown-item-amount {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.result-note {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  background-color: #fffbf0;
+  border: 1px solid #ffe8a1;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.btn-share {
+  width: 100%;
+  background-color: #fff;
+  color: #005041;
+  border: 2px solid #005041;
+  border-radius: 8px;
+  padding: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-share:hover {
+  background-color: #005041;
+  color: #fff;
+}
+
+/* ==============================
+   HOW IT WORKS
+   ============================== */
+
+.how-it-works {
+  background-color: #f8f7f3;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.step-card {
+  background-color: #fff;
+  border: 1px solid #e8e4dc;
+  border-radius: 16px;
+  padding: 28px 24px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.step-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 80, 65, 0.08);
+}
+
+.step-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #005041;
+  opacity: 0.5;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.step-icon {
+  font-size: 36px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.step-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.step-desc {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* ==============================
+   NISAB INFO
+   ============================== */
+
+.nisab-info-section {
+  background-color: #1a1a1a;
+}
+
+.nisab-info-section .section-container {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.nisab-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.nisab-info-card {
+  border-radius: 16px;
+  padding: 32px 28px;
+  text-align: center;
+}
+
+.gold-card {
+  background-color: #2a2010;
+  border: 1px solid #4a3a1a;
+}
+
+.silver-card {
+  background-color: #1a1f28;
+  border: 1px solid #2a3545;
+}
+
+.rate-card {
+  background-color: #0a2018;
+  border: 1px solid #1a4030;
+}
+
+.nisab-card-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.nisab-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.nisab-card-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: #c9a84c;
+  margin-bottom: 14px;
+}
+
+.silver-card .nisab-card-value {
+  color: #a8b8c8;
+}
+
+.rate-card .nisab-card-value {
+  color: #7ec8a8;
+}
+
+.nisab-card-desc {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.6;
+}
+
+/* ==============================
+   FAQ
+   ============================== */
+
+.faq-section {
+  background-color: #fff;
+}
+
+.faq-list {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  border: 1px solid #e8e4dc;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #f8f7f3;
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  gap: 16px;
+  transition: background-color 0.2s;
+}
+
+.faq-question:hover {
+  background-color: #f0ede6;
+}
+
+.faq-arrow {
+  color: #005041;
+  font-size: 12px;
+  flex-shrink: 0;
+  transition: transform 0.3s;
+}
+
+.faq-arrow.open {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  display: none;
+  padding: 0 22px 18px;
+  border-top: 1px solid #e8e4dc;
+}
+
+.faq-answer.open {
+  display: block;
+}
+
+.faq-answer p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.7;
+  padding-top: 14px;
+}
+
+/* ==============================
+   FOOTER
+   ============================== */
+
+.footer {
+  background-color: #111;
+  color: #fff;
+  padding-top: 56px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 48px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 60px;
+}
+
+.footer-brand .nav-logo {
+  color: #fff;
+  margin-bottom: 16px;
+}
+
+.footer-brand .logo-dot {
+  color: #7ec8a8;
+}
+
+.footer-tagline {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  max-width: 260px;
+}
+
+.footer-links-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.footer-col-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.footer-link {
+  display: block;
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+}
+
+.footer-link:hover {
+  color: #fff;
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 24px;
+  border-top: 1px solid #222;
+  font-size: 13px;
+  color: #555;
+}
+
+/* ==============================
+   FIELD HINTS (Agriculture & Nisab Rate)
+   Small helper text shown below input fields
+   ============================== */
+
+/* General field hint: shown below agriculture inputs to explain Ushr rates */
+.field-hint {
+  font-size: 11px;
+  color: #888;
+  margin-top: 4px;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* Nisab rate hint: shown below the custom gold/silver price input */
+.nisab-rate-hint {
+  font-size: 11px;
+  color: #888;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+/* Nisab rate group: the entire block that wraps the custom rate input */
+#nisabRateGroup {
+  background-color: #f0faf7;
+  border: 1px solid #b8ddd6;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+
+/* ==============================
+   TOAST NOTIFICATION
+   ============================== */
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background-color: #1a1a1a;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 9999;
+  opacity: 0;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+
+@media (max-width: 1024px) {
+  .calculator-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .calculator-results {
+    position: static;
+  }
+
+  .steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nisab-info-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nisab-info-grid .rate-card {
+    grid-column: span 2;
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-links,
+  .nav-cta {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .hero {
+    padding: 120px 20px 60px;
+    min-height: auto;
+  }
+
+  .hero-title {
+    font-size: 36px;
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+  }
+
+  .hero-stats {
+    gap: 24px;
+    padding: 18px 24px;
+    flex-wrap: wrap;
+  }
+
+  .stat-divider {
+    display: none;
+  }
+
+  .section-title {
+    font-size: 30px;
+  }
+
+  .section-container {
+    padding: 60px 20px;
+  }
+
+  .form-group-row {
+    grid-template-columns: 1fr;
+  }
+
+  .calculator-form {
+    padding: 20px;
+  }
+
+  .calculator-results {
+    padding: 20px;
+  }
+
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .nisab-info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nisab-info-grid .rate-card {
+    grid-column: span 1;
+    max-width: 100%;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .footer-links-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .zakat-due-amount {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 30px;
+  }
+
+  .hero-badge {
+    font-size: 12px;
+    padding: 5px 14px;
+  }
+
+  .footer-links-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-stats {
+    width: 100%;
+    justify-content: space-around;
+  }
+}
+
+/* ======================================================
+   ADDITIONS & UPDATES — v3
+   Req #1:  Comma-formatting for inputs (no spinner arrows)
+   Req #3:  Ushr rate badge
+   Req #4:  Nisab indicator boxes
+   Req #6:  Guide page styles
+   General: Improved mobile responsiveness & validation
+   ====================================================== */
+
+/* ---- Req #1: Remove number spinner arrows for text inputs ---- */
+.form-input[type="text"],
+.form-input[inputmode="decimal"] {
+  -moz-appearance: textfield;
+}
+
+/* ---- Req #3: Ushr Rate Badge ---- */
+.ushr-rate-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #e8f5f2;
+  border: 1px solid #b8ddd6;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: #005041;
+  font-weight: 500;
+}
+
+.ushr-rate-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* ---- Req #4: Nisab Indicator Boxes ---- */
+.nisab-indicator {
+  margin-top: 8px;
+  margin-bottom: 6px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+/* Green: above Nisab */
+.nisab-indicator.above-nisab {
+  background-color: #e8f5f2;
+  border: 1px solid #b8ddd6;
+  color: #005041;
+}
+
+/* Red: below Nisab — warning style per requirement */
+.nisab-indicator.below-nisab {
+  background-color: #fff0f0;
+  border: 1px solid #ffb3b3;
+  color: #c0392b;
+}
+
+.nisab-indicator-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ---- Input validation: invalid field highlight ---- */
+.form-input.input-error {
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+/* ---- Property intent group ---- */
+#propertyTypeGroup {
+  margin-top: 6px;
+}
+
+/* ======================================================
+   GUIDE PAGE STYLES
+   ====================================================== */
+
+/* Guide hero — tighter than main hero */
+.guide-hero {
+  position: relative;
+  padding: 120px 24px 60px;
+  overflow: hidden;
+  background-color: #f8f7f3;
+  text-align: center;
+}
+
+.guide-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* Table of contents sticky bar */
+.guide-toc-bar {
+  background-color: #fff;
+  border-bottom: 1px solid #e8e4dc;
+  position: sticky;
+  top: 68px;
+  z-index: 100;
+  overflow-x: auto;
+}
+
+.guide-toc-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  white-space: nowrap;
+}
+
+.toc-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.toc-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+  padding: 4px 12px;
+  border-radius: 20px;
+  transition: background-color 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.toc-link:hover {
+  background-color: #e8f5f2;
+  color: #005041;
+}
+
+/* Guide main container */
+.guide-main {
+  background-color: #fff;
+}
+
+/* Guide sections */
+.guide-section {
+  padding: 72px 24px;
+}
+
+.guide-section-alt {
+  background-color: #f8f7f3;
+}
+
+.guide-section-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.guide-section-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #005041;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+
+.guide-section-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+}
+
+.guide-intro {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.7;
+  max-width: 720px;
+  margin-bottom: 36px;
+}
+
+/* Guide 3-column cards grid (Who pays) */
+.guide-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 36px;
+}
+
+.guide-card {
+  background-color: #fff;
+  border: 1px solid #e8e4dc;
+  border-radius: 14px;
+  padding: 24px 20px;
+}
+
+.guide-section-alt .guide-card {
+  background-color: #fff;
+}
+
+.guide-card-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.guide-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.guide-card p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Hadith box */
+.guide-hadith-box {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background-color: #f0faf7;
+  border-left: 4px solid #005041;
+  border-radius: 0 10px 10px 0;
+  padding: 20px 24px;
+  margin-top: 32px;
+}
+
+.guide-hadith-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.guide-hadith-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-style: italic;
+  color: #1a1a1a;
+  line-height: 1.7;
+  margin-bottom: 6px;
+}
+
+.guide-hadith-source {
+  font-size: 12px;
+  color: #005041;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Nisab comparison grid */
+.nisab-comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.nisab-compare-card {
+  border-radius: 16px;
+  padding: 28px 24px;
+}
+
+.nisab-gold-compare {
+  background-color: #2a2010;
+  border: 1px solid #4a3a1a;
+}
+
+.nisab-silver-compare {
+  background-color: #1a1f28;
+  border: 1px solid #2a3545;
+}
+
+.nisab-compare-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.nisab-compare-icon {
+  font-size: 28px;
+}
+
+.nisab-compare-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.nisab-compare-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #c9a84c;
+  margin-bottom: 16px;
+}
+
+.nisab-silver-compare .nisab-compare-value {
+  color: #a8b8c8;
+}
+
+.nisab-compare-list {
+  list-style: none;
+  margin-bottom: 16px;
+}
+
+.nisab-compare-list li {
+  font-size: 14px;
+  color: #bbb;
+  padding: 4px 0;
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.nisab-compare-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: #888;
+  font-size: 12px;
+}
+
+.nisab-compare-note {
+  font-size: 12px;
+  color: #888;
+  border-top: 1px solid #333;
+  padding-top: 12px;
+  font-style: italic;
+}
+
+/* Guide info box */
+.guide-info-box {
+  background-color: #fffbf0;
+  border: 1px solid #ffe8a1;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-top: 24px;
+}
+
+.guide-info-box h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.guide-info-box p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.7;
+}
+
+.guide-info-list {
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+.guide-info-list li {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.8;
+}
+
+/* Two-column layout for zakatable/non-zakatable */
+.guide-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.guide-col-block {
+  border-radius: 14px;
+  padding: 24px;
+}
+
+.guide-col-yes {
+  background-color: #f0faf7;
+  border: 1px solid #b8ddd6;
+}
+
+.guide-col-no {
+  background-color: #fff0f0;
+  border: 1px solid #ffcece;
+}
+
+.guide-col-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.guide-asset-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.guide-asset-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.guide-asset-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.guide-asset-item strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 2px;
+}
+
+.guide-asset-item p {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Ushr rates grid */
+.ushr-rates-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.ushr-rate-card {
+  background-color: #fff;
+  border: 1px solid #e8e4dc;
+  border-radius: 14px;
+  padding: 24px 20px;
+  text-align: center;
+}
+
+.ushr-rate-card .ushr-rate-icon {
+  font-size: 36px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.ushr-rate-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.ushr-rate-card .ushr-rate-value {
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  font-weight: 700;
+  color: #005041;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.ushr-mixed .ushr-rate-value { color: #c9a84c; }
+.ushr-artificial .ushr-rate-value { color: #3498db; }
+
+.ushr-rate-card p {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+.ushr-example {
+  font-size: 12px;
+  background-color: #f0faf7;
+  border-radius: 6px;
+  padding: 8px 12px;
+  color: #005041;
+  font-weight: 500;
+}
+
+.ushr-mixed .ushr-example { background-color: #fef9e7; color: #c9a84c; }
+.ushr-artificial .ushr-example { background-color: #e8f4fd; color: #2980b9; }
+
+/* Property cards grid */
+.property-intent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.property-card {
+  background-color: #fff;
+  border-radius: 14px;
+  padding: 24px 20px;
+  border: 1px solid #e8e4dc;
+}
+
+.property-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.property-card-icon {
+  font-size: 24px;
+}
+
+.property-card-header h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+  font-family: 'DM Sans', sans-serif;
+  flex: 1;
+}
+
+.property-rate-badge {
+  background-color: #005041;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.exempt-badge {
+  background-color: #888;
+}
+
+.property-card p {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
+
+.property-card strong {
+  color: #1a1a1a;
+}
+
+.property-example {
+  font-size: 12px;
+  background-color: #f8f7f3;
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: #555;
+  border-left: 3px solid #005041;
+}
+
+/* Recipients grid */
+.recipients-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.recipient-card {
+  background-color: #fff;
+  border: 1px solid #e8e4dc;
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-align: center;
+  position: relative;
+}
+
+.guide-section-alt .recipient-card {
+  background-color: #fff;
+}
+
+.recipient-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #005041;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.recipient-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.recipient-card h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.3;
+}
+
+.recipient-card p {
+  font-size: 12px;
+  color: #777;
+  line-height: 1.55;
+}
+
+/* Guide CTA section */
+.guide-cta-section {
+  background-color: #005041;
+  padding: 72px 24px;
+  text-align: center;
+}
+
+.guide-cta-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.guide-cta-section h2 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.guide-cta-section p {
+  font-size: 17px;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 32px;
+}
+
+.guide-cta-section .btn-primary {
+  background-color: #fff;
+  color: #005041;
+  font-size: 16px;
+  padding: 14px 36px;
+  border-radius: 10px;
+}
+
+.guide-cta-section .btn-primary:hover {
+  background-color: #e8f5f2;
+}
+
+/* ======================================================
+   RESPONSIVE — Guide Page
+   ====================================================== */
+
+@media (max-width: 1024px) {
+  .guide-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .recipients-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .property-intent-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .guide-hero {
+    padding: 100px 20px 48px;
+  }
+
+  .guide-section {
+    padding: 48px 20px;
+  }
+
+  .guide-section-title {
+    font-size: 28px;
+  }
+
+  .guide-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nisab-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .ushr-rates-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recipients-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .guide-cta-section h2 {
+    font-size: 28px;
+  }
+
+  .guide-toc-bar {
+    top: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .recipients-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-hadith-box {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

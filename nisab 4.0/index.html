@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nisab.ai | Purify Your Wealth</title>
+  <meta name="description" content="Easily calculate Zakat on gold, silver, stocks, and assets with our free Zakat calculator. Sharia-compliant tools to manage your investments confidently." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ======================================================
+       NAVBAR
+       Nav links: Calculator, How It Works, FAQ, Guide (new)
+       Guide link added per Req #6
+       ====================================================== -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html">
+        <div class="nav-logo">
+        <span class="logo-icon">&#9632;</span>
+        <span class="logo-text">nisab<span class="logo-dot">.ai</span></span>
+      </div>
+      </a>
+      <div class="nav-links">
+        <a href="#calculator" class="nav-link">Calculator</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#faq" class="nav-link">FAQ</a>
+        <!-- Req #6: Guide link in navbar -->
+        <a href="guide.html" class="nav-link">Guide</a>
+      </div>
+      <div class="nav-cta">
+        <button class="btn-primary" id="navCalculateBtn">Calculate Zakat</button>
+      </div>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <!-- Mobile menu also includes Guide -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#calculator" class="mobile-link">Calculator</a>
+      <a href="#how-it-works" class="mobile-link">How It Works</a>
+      <a href="#faq" class="mobile-link">FAQ</a>
+      <a href="guide.html" class="mobile-link">Guide</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-shape shape1"></div>
+    <div class="hero-bg-shape shape2"></div>
+    <div class="hero-container">
+      <div class="hero-badge">&#10003; Sharia-Compliant • Free • Trusted by Muslims Worldwide</div>
+      <h1 class="hero-title">Purify Your Wealth<br /><span class="hero-title-accent">Calculate Your Zakat</span></h1>
+      <p class="hero-subtitle">Accurately calculate Zakat on gold, silver, cash, stocks, and business assets. Based on the latest Nisab thresholds updated in real-time.</p>
+      <div class="hero-actions">
+        <a href="#calculator" class="btn-primary btn-large">Start Calculating</a>
+        <a href="#how-it-works" class="btn-ghost btn-large">Learn How It Works</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number">2.5%</span>
+          <span class="stat-label">Zakat Rate</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">87.48g</span>
+          <span class="stat-label">Gold Nisab</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-number">612.36g</span>
+          <span class="stat-label">Silver Nisab</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================
+       CALCULATOR SECTION
+       ====================================================== -->
+  <section class="calculator-section" id="calculator">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Zakat Calculator</h2>
+        <p class="section-subtitle">Enter your assets below to calculate your Zakat obligation for this year.</p>
+      </div>
+
+      <div class="calculator-wrapper">
+
+        <!-- LEFT: Form -->
+        <div class="calculator-form">
+
+          <!-- Currency & Nisab type selectors
+               Changing either resets all text fields -->
+          <div class="form-group-row">
+            <div class="form-group">
+              <label class="form-label" for="currency">Currency</label>
+              <select class="form-select" id="currency">
+                <option value="USD">🇺🇸 USD — US Dollar</option>
+                <option value="GBP">🇬🇧 GBP — British Pound</option>
+                <option value="EUR">🇪🇺 EUR — Euro</option>
+                <option value="AED">🇦🇪 AED — UAE Dirham</option>
+                <option value="SAR">🇸🇦 SAR — Saudi Riyal</option>
+                <option value="PKR" selected>🇵🇰 PKR — Pakistani Rupee</option>
+                <option value="INR">🇮🇳 INR — Indian Rupee</option>
+                <option value="MYR">🇲🇾 MYR — Malaysian Ringgit</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="nisabType">Nisab Based On</label>
+              <select class="form-select" id="nisabType">
+                <option value="gold">Gold (87.48g)</option>
+                <option value="silver" selected>Silver (612.36g)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dynamic Nisab Rate Input -->
+          <div class="form-group" id="nisabRateGroup">
+            <label class="form-label" id="nisabRateLabel">Current Silver Price (per gram)</label>
+            <div class="input-wrapper">
+              <span class="input-prefix" id="nisabRatePrefix">₨</span>
+              <!-- Req #1: data-format="currency" enables comma formatting -->
+              <input
+                type="text"
+                class="form-input format-currency"
+                id="nisabRateInput"
+                placeholder="e.g. Current price of silver per gram"
+                inputmode="decimal"
+              />
+            </div>
+            <p class="nisab-rate-hint" id="nisabRateHint">
+              💡 Leave blank to use default approximate price. Enter today's actual market rate for a more accurate Nisab threshold.
+            </p>
+          </div>
+
+          <!-- Asset Categories -->
+          <div class="asset-categories">
+
+            <!-- ============================================
+                 CASH & BANK ACCOUNTS
+                 ============================================ -->
+            <div class="category-block">
+              <div class="category-header" data-target="cashAssets">
+                <div class="category-title-row">
+                  <span class="category-icon">💵</span>
+                  <span class="category-name">Cash &amp; Bank Accounts</span>
+                </div>
+                <span class="category-toggle">&#9660;</span>
+              </div>
+              <div class="category-body" id="cashAssets">
+                <div class="form-group">
+                  <label class="form-label">Cash at Home</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix" id="prefix1">₨</span>
+                    <!-- Req #1: type="text" + format-currency class for comma formatting -->
+                    <input type="text" class="form-input format-currency" id="cashHome" placeholder="0" inputmode="decimal" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Bank Account Balance</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix" id="prefix2">₨</span>
+                    <input type="text" class="form-input format-currency" id="bankBalance" placeholder="0" inputmode="decimal" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Savings Account</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix" id="prefix3">₨</span>
+                    <input type="text" class="form-input format-currency" id="savingsAccount" placeholder="0" inputmode="decimal" />
+                  </div>
+                </div>
+
+                <!-- Req #4: Nisab indicator for Cash/Assets section -->
+                <div class="nisab-indicator" id="cashNisabIndicator" style="display:none;"></div>
+              </div>
+            </div>
+
+            <!-- ============================================
+                 GOLD & SILVER
+                 ============================================ -->
+            <div class="category-block">
+              <div class="category-header" data-target="goldAssets">
+                <div class="category-title-row">
+                  <span class="category-icon">🥇</span>
+                  <span class="category-name">Gold &amp; Silver</span>
+                </div>
+                <span class="category-toggle">&#9660;</span>
+              </div>
+              <div class="category-body" id="goldAssets">
+
+                <div class="form-group">
+                  <label class="form-label">Gold Karat</label>
+                  <select class="form-select" id="goldKarat">
+                    <option value="18">18K Gold</option>
+                    <option value="22">22K Gold</option>
+                    <option value="24" selected>24K Gold (Pure)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Gold (grams)</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix">g</span>
+                    <!-- oninput: triggers auto-calc of total gold value -->
+                    <input type="text" class="form-input format-decimal" id="goldGrams" placeholder="0" inputmode="decimal" oninput="autoCalcGoldValue()" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" id="goldPriceLabel">Gold Price per Gram (24K)</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix" id="prefix4">₨</span>
+                    <input type="text" class="form-input format-currency" id="goldPricePerGram" placeholder="Enter current gold price per gram" inputmode="decimal" oninput="autoCalcGoldValue()" />
+                  </div>
+                  <p class="field-hint">Enter today's market price per gram for the selected karat.</p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Total Gold Value</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix" id="prefix4b">₨</span>
+                    <!-- Auto-filled: goldGrams × goldPricePerGram. Can be overridden manually. -->
+                    <input type="text" class="form-input format-currency" id="goldValue" placeholder="Auto-calculated (grams × price)" inputmode="decimal" />
+                  </div>
+                  <p class="field-hint">Auto-filled from grams × price. You may override manually.</p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Silver (grams)</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix">g</span>
+                    <input type="text" class="form-input format-decimal" id="silverGrams" placeholder="0" inputmode="decimal" oninput="autoCalcSilverValue()" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Silver Price per Gram</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix" id="prefix5a">₨</span>
+                    <input type="text" class="form-input format-currency" id="silverPricePerGram" placeholder="Enter current silver price per gram" inputmode="decimal" oninput="autoCalcSilverValue()" />
+                  </div>
+                  <p class="field-hint">Enter today's market price per gram of silver.</p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Total Silver Value</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix" id="prefix5">₨</span>
+                    <input type="text" class="form-input format-currency" id="silverValue" placeholder="Auto-calculated (grams × price)" inputmode="decimal" />
+                  </div>
+                  <p class="field-hint">Auto-filled from grams × price. You may override manually.</p>
+                </div>
+
+                <!-- Req #4: Nisab indicator for Gold section -->
+                <div class="nisab-indicator" id="goldNisabIndicator" style="display:none;"></div>
+
+              </div>
+            </div>
+
+            <!-- ============================================
+                 AGRICULTURE & CROPS (USHR)
+                 Req #3: Added irrigation type selector
+                         Natural: 10%, Artificial: 5%, Mixed: 7.5%
+                 ============================================ -->
+            <div class="category-block">
+              <div class="category-header" data-target="agricultureAssets">
+                <div class="category-title-row">
+                  <span class="category-icon">🌾</span>
+                  <span class="category-name">Agriculture &amp; Crops (Ushr)</span>
+                </div>
+                <span class="category-toggle">&#9660;</span>
+              </div>
+              <div class="category-body" id="agricultureAssets">
+
+                <!-- Req #3: Irrigation type selector — determines Ushr rate -->
+                <div class="form-group">
+                  <label class="form-label">Irrigation Type</label>
+                  <select class="form-select" id="irrigationType" onchange="updateUshrRate()">
+                    <option value="natural">Natural (Rain/River) — Ushr 10%</option>
+                    <option value="artificial">Artificial (Pump/Canal) — Ushr 5%</option>
+                    <option value="mixed">Mixed — Ushr 7.5%</option>
+                  </select>
+                  <p class="field-hint">The irrigation method determines the applicable Ushr rate.</p>
+                </div>
+
+                <!-- Ushr rate display badge — updates dynamically -->
+                <div class="ushr-rate-badge" id="ushrRateBadge">
+                  <span class="ushr-rate-icon">📖</span>
+                  <span id="ushrRateText">Applicable Ushr Rate: <strong>10%</strong> (Natural Irrigation)</span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Quantity of Product (kg)</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix">kg</span>
+                    <input type="text" class="form-input format-decimal" id="cropQuantityKg" placeholder="0" inputmode="decimal" oninput="autoCalcCropsValue()" />
+                  </div>
+                  <p class="field-hint">Total weight of your harvest / agricultural produce in kilograms.</p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Market Price per kg</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix" id="prefix6">₨</span>
+                    <input type="text" class="form-input format-currency" id="cropPricePerKg" placeholder="0.00" inputmode="decimal" oninput="autoCalcCropsValue()" />
+                  </div>
+                  <p class="field-hint">Current market selling price per kg of your crop.</p>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Your Crops Value</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix" id="prefix7">₨</span>
+                    <!-- Auto-filled = cropQuantityKg × cropPricePerKg -->
+                    <input type="text" class="form-input format-currency" id="cropsValue" placeholder="Auto-calculated (quantity × price)" inputmode="decimal" />
+                  </div>
+                  <!-- Req #3: Ushr hint updates based on selected irrigation type -->
+                  <p class="field-hint" id="cropsUshrHint">Auto-filled (quantity × price). Ushr (10%) will be applied on this value.</p>
+                </div>
+
+                <!-- Req #4: Nisab indicator for Agriculture -->
+                <div class="nisab-indicator" id="agriNisabIndicator" style="display:none;"></div>
+
+              </div>
+            </div>
+
+            <!-- ============================================
+                 BUSINESS & ASSETS
+                 Req #2: Replaced rentalIncome with propertyValue
+                         Property Zakat = 2.5% on market value
+                         (only if held as investment, not personal use)
+                 ============================================ -->
+            <div class="category-block">
+              <div class="category-header" data-target="businessAssets">
+                <div class="category-title-row">
+                  <span class="category-icon">🏢</span>
+                  <span class="category-name">Business &amp; Assets</span>
+                </div>
+                <span class="category-toggle">&#9660;</span>
+              </div>
+              <div class="category-body" id="businessAssets">
+
+                <div class="form-group">
+                  <label class="form-label">Business Cash &amp; Bank Balance</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix" id="prefix10">₨</span>
+                    <input type="text" class="form-input format-currency" id="businessCash" placeholder="0.00" inputmode="decimal" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Trade Stock / Inventory (market value)</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix" id="prefix11">₨</span>
+                    <input type="text" class="form-input format-currency" id="businessInventory" placeholder="0.00" inputmode="decimal" />
+                  </div>
+                </div>
+
+                <!-- Req #2: Property field replaces Rental Income
+                     Islamic rule: Zakat on investment property = 2.5% of market value
+                     Personal residence is NOT zakatable. -->
+                <div class="form-group">
+                  <label class="form-label">Investment Property (market value)</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix" id="prefix13">₨</span>
+                    <input type="text" class="form-input format-currency" id="propertyValue" placeholder="0.00" inputmode="decimal" />
+                  </div>
+                  <p class="field-hint">Enter market value of property held for investment/resale only. Personal residence is NOT zakatable.</p>
+                </div>
+
+                <!-- Req #2: Property type selector — affects how Zakat is calculated -->
+                <div class="form-group" id="propertyTypeGroup">
+                  <label class="form-label">Property Intent</label>
+                  <select class="form-select" id="propertyIntent">
+                    <option value="resale">Held for Resale (2.5% on full market value)</option>
+                    <option value="rental">Rental Investment (2.5% on rental income accumulated)</option>
+                    <option value="personal">Personal Use (Not zakatable)</option>
+                  </select>
+                  <p class="field-hint">The purpose of holding the property determines how Zakat applies.</p>
+                </div>
+
+                <!-- Req #4: Nisab indicator for Property -->
+                <div class="nisab-indicator" id="propertyNisabIndicator" style="display:none;"></div>
+
+                <div class="form-group">
+                  <label class="form-label">Business Partnership / Investment Share (value)</label>
+                  <div class="input-wrapper">
+                    <span class="input-prefix" id="prefix15">₨</span>
+                    <input type="text" class="form-input format-currency" id="businessShare" placeholder="0.00" inputmode="decimal" />
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div><!-- end .asset-categories -->
+
+          <button class="btn-calculate" id="calculateBtn">Calculate My Zakat</button>
+          <button class="btn-reset" id="resetBtn">Reset All</button>
+        </div><!-- end .calculator-form -->
+
+        <!-- RIGHT: Results Panel -->
+        <div class="calculator-results" id="resultsPanel">
+          <div class="results-placeholder" id="resultsPlaceholder">
+            <div class="placeholder-icon">🕌</div>
+            <p class="placeholder-text">Enter your assets and click <strong>Calculate My Zakat</strong> to see your results.</p>
+          </div>
+
+          <div class="results-content" id="resultsContent" style="display:none;">
+            <div class="result-nisab-status" id="nisabStatusBox">
+              <span class="nisab-badge" id="nisabBadge">&#10003; Nisab Reached</span>
+              <p class="nisab-description" id="nisabDescription">Your total assets exceed the Nisab threshold. Zakat is obligatory.</p>
+            </div>
+
+            <div class="result-summary">
+              <div class="result-row">
+                <span class="result-label">Total Assets</span>
+                <span class="result-value" id="totalAssetsDisplay">₨0.00</span>
+              </div>
+              <div class="result-row result-row-net">
+                <span class="result-label">Net Zakatable Wealth</span>
+                <span class="result-value net" id="netWealthDisplay">₨0.00</span>
+              </div>
+              <div class="result-row">
+                <span class="result-label">Nisab Threshold</span>
+                <span class="result-value" id="nisabThresholdDisplay">₨0.00</span>
+              </div>
+            </div>
+
+            <div class="result-zakat-due">
+              <div class="zakat-due-label">Your Zakat Due (2.5%)</div>
+              <div class="zakat-due-amount" id="zakatDueDisplay">₨0.00</div>
+              <div class="zakat-due-currency" id="zakatDueCurrency">Pakistani Rupee</div>
+            </div>
+
+            <div class="result-breakdown">
+              <h4 class="breakdown-title">Asset Breakdown</h4>
+              <div class="breakdown-list" id="breakdownList"></div>
+            </div>
+
+            <div class="result-note">
+              <span class="note-icon">ℹ️</span>
+              <span>This calculator uses current approximate gold/silver prices. Always verify with your local scholar.</span>
+            </div>
+
+            <button class="btn-share" id="shareBtn">&#128228; Share Result</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">Calculating Zakat is straightforward with our step-by-step approach.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <div class="step-icon">📋</div>
+          <h3 class="step-title">List Your Assets</h3>
+          <p class="step-desc">Enter all your assets — cash, gold, silver, investments, and business assets that you have owned for one full lunar year (Hawl).</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <div class="step-icon">⚖️</div>
+          <h3 class="step-title">Check Nisab</h3>
+          <p class="step-desc">We compare your total zakatable wealth against the current Nisab threshold (equivalent to 87.48g of gold or 612.36g of silver).</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <div class="step-icon">🧮</div>
+          <h3 class="step-title">Calculate 2.5%</h3>
+          <p class="step-desc">If your wealth exceeds Nisab, Zakat is calculated at 2.5% of your total net zakatable assets after deducting liabilities.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">04</div>
+          <div class="step-icon">💚</div>
+          <h3 class="step-title">Pay &amp; Purify</h3>
+          <p class="step-desc">Distribute your Zakat to the 8 eligible categories of recipients as defined in the Quran (Surah At-Tawbah, 9:60).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NISAB INFO -->
+  <section class="nisab-info-section">
+    <div class="section-container">
+      <div class="nisab-info-grid">
+        <div class="nisab-info-card gold-card">
+          <div class="nisab-card-icon">🥇</div>
+          <h3 class="nisab-card-title">Gold Nisab</h3>
+          <div class="nisab-card-value">87.48 grams</div>
+          <p class="nisab-card-desc">The gold Nisab is equivalent to 87.48 grams of pure gold. This is the most commonly used threshold in contemporary scholarship.</p>
+        </div>
+        <div class="nisab-info-card silver-card">
+          <div class="nisab-card-icon">🥈</div>
+          <h3 class="nisab-card-title">Silver Nisab</h3>
+          <div class="nisab-card-value">612.36 grams</div>
+          <p class="nisab-card-desc">The silver Nisab is 612.36 grams of pure silver. Due to lower silver prices, this often results in a lower threshold — some scholars recommend using this for wider coverage.</p>
+        </div>
+        <div class="nisab-info-card rate-card">
+          <div class="nisab-card-icon">📊</div>
+          <h3 class="nisab-card-title">Zakat Rate</h3>
+          <div class="nisab-card-value">2.5%</div>
+          <p class="nisab-card-desc">The standard Zakat rate on wealth is 2.5%, applied to all net zakatable assets that have been held for one full lunar year.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================
+       FAQ
+       Req #5: FAQ #4 (stocks) and #5 (installments) REMOVED
+       Remaining: #1 (who pays), #2 (Hawl), #3 (house/car), #6 (8 recipients)
+       ====================================================== -->
+  <section class="faq-section" id="faq">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Common questions about Zakat calculation and obligations.</p>
+      </div>
+      <div class="faq-list">
+        <!-- FAQ #1 -->
+        <div class="faq-item">
+          <button class="faq-question" data-target="faq1">
+            <span>Who is obligated to pay Zakat?</span>
+            <span class="faq-arrow">&#9660;</span>
+          </button>
+          <div class="faq-answer" id="faq1">
+            <p>Zakat is obligatory on every adult Muslim who possesses wealth above the Nisab threshold for a complete lunar year.</p>
+          </div>
+        </div>
+        <!-- FAQ #2 -->
+        <div class="faq-item">
+          <button class="faq-question" data-target="faq2">
+            <span>What is Hawl (the lunar year)?</span>
+            <span class="faq-arrow">&#9660;</span>
+          </button>
+          <div class="faq-answer" id="faq2">
+            <p>Hawl refers to the completion of one full lunar (Islamic/Hijri) year. A lunar year is approximately 354 days.</p>
+          </div>
+        </div>
+        <!-- FAQ #3 -->
+        <div class="faq-item">
+          <button class="faq-question" data-target="faq3">
+            <span>Is Zakat due on my house or car?</span>
+            <span class="faq-arrow">&#9660;</span>
+          </button>
+          <div class="faq-answer" id="faq3">
+            <p>No. Personal use items like your primary residence, vehicle, furniture, and clothing are not subject to Zakat.</p>
+          </div>
+        </div>
+        <!-- FAQ #4 (was #6): 8 recipients — renumbered after removing old #4 and #5 -->
+        <div class="faq-item">
+          <button class="faq-question" data-target="faq6">
+            <span>Who are the 8 eligible recipients of Zakat?</span>
+            <span class="faq-arrow">&#9660;</span>
+          </button>
+          <div class="faq-answer" id="faq6">
+            <p>According to Surah At-Tawbah (9:60): the poor, the needy, Zakat collectors, those whose hearts are to be reconciled, those in bondage, those in debt, in the cause of Allah, and the wayfarer.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER
+       Req #6: "Zakat on Stocks" replaced with "Guide" in Learn section -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <span class="logo-icon">&#9632;</span>
+          <span class="logo-text">nisab<span class="logo-dot">.ai</span></span>
+        </div>
+        <p class="footer-tagline">Purify your wealth. Fulfill your obligation. Trust the calculation.</p>
+      </div>
+      <div class="footer-links-grid">
+        <div class="footer-col">
+          <h4 class="footer-col-title">Tools</h4>
+          <a href="#calculator" class="footer-link">Zakat Calculator</a>
+          <!-- <a href="#" class="footer-link">Gold Price Today</a> -->
+          <a href="#" class="footer-link">Nisab Threshold</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title">Learn</h4>
+          <a href="#how-it-works" class="footer-link">How Zakat Works</a>
+          <a href="#faq" class="footer-link">FAQ</a>
+          <!-- Req #6: Replaced "Zakat on Stocks" with "Guide" -->
+          <a href="guide.html" class="footer-link">Guide</a>
+        </div>
+        <div class="footer-col">
+          <h4 class="footer-col-title">Team</h4>
+          <!-- <a href="#" class="footer-link">Muhaimin Areef</a> -->
+          <p class="footer-link">Muhaimin Areef</p>
+          <p class="footer-link">Ameer Hamza</p>
+          <p class="footer-link">Ahsan Ali</p>
+          <p class="footer-link">Muhammed Ahmad</p>
+          <p class="footer-link">Muhammed Hussnain</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Nisab.ai — For educational purposes. Always consult a qualified Islamic scholar.</p>
+    </div>
+  </footer>
+
+  <!-- TOAST notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
