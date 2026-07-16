@@ -1,0 +1,8 @@
+{
+  "name": "Remix: LuminaDeen-AI",
+  "description": "Imported from GitHub: cyberahmedshah/LuminaDeen-AI",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

@@ -841,7 +841,7 @@ function initShare() {
   btn.addEventListener("click", function () {
     var zakatText = document.getElementById("zakatDueDisplay").textContent;
     var currency  = document.getElementById("zakatDueCurrency").textContent;
-    var shareText = "I just calculated my Zakat: " + zakatText + " (" + currency + "). Calculate yours at nisab.ai";
+    var shareText = "I just calculated my Zakat: " + zakatText + " (" + currency + "). Calculate yours at LuminaDeen Zakat";
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(shareText).then(function () {

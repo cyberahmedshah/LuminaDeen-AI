@@ -1,0 +1,11 @@
+{
+  "name": "luminadeen-ai",
+  "version": "1.0.0",
+  "description": "LuminaDeen AI & Zakat Calculator",
+  "scripts": {
+    "dev": "python app.py",
+    "build": "echo 'Static assets ready.'",
+    "lint": "echo 'No JS/TS linting needed for Flask app.'"
+  },
+  "dependencies": {}
+}
