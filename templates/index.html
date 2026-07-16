@@ -497,6 +497,123 @@
     .header-subtitle { display: none; }
     .header-title { font-size: 16px; }
   }
+
+  /* Header Navigation */
+  .header-nav {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 20px;
+  }
+  .header-nav-link {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+  }
+  .header-nav-link:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .header-nav-link.active {
+    color: var(--accent-light);
+    background: rgba(22, 163, 74, 0.1);
+    border: 1px solid rgba(22, 163, 74, 0.2);
+  }
+
+  /* Zakat Promo Banner */
+  .zakat-promo-banner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(135deg, rgba(22, 163, 74, 0.12), rgba(16, 36, 61, 0.8));
+    border: 1px solid rgba(22, 163, 74, 0.25);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    margin: 0 auto 28px;
+    max-width: 580px;
+    text-align: left;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    animation: fadeUp 0.6s ease both;
+  }
+  .zakat-promo-icon {
+    font-size: 24px;
+    background: rgba(22, 163, 74, 0.15);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(22, 163, 74, 0.2);
+    flex-shrink: 0;
+  }
+  .zakat-promo-text-wrap {
+    flex: 1;
+  }
+  .zakat-promo-title {
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--accent-light);
+    margin-bottom: 2px;
+  }
+  .zakat-promo-desc {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+  .zakat-promo-btn {
+    padding: 8px 16px;
+    background: var(--accent);
+    color: white;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    box-shadow: 0 2px 10px rgba(22, 163, 74, 0.3);
+  }
+  .zakat-promo-btn:hover {
+    background: var(--accent-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(22, 163, 74, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    .header-nav {
+      gap: 6px;
+      margin-right: 10px;
+    }
+    .header-nav-link span {
+      display: none;
+    }
+    .header-nav-link {
+      padding: 6px 10px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .zakat-promo-banner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+    }
+    .zakat-promo-btn {
+      align-self: stretch;
+      text-align: center;
+    }
+  }
 </style>
 </head>
 <body>
@@ -520,6 +637,11 @@
         <div class="header-subtitle">Islamic Knowledge Assistant</div>
       </div>
     </div>
+    <div class="header-nav">
+      <a href="/" class="header-nav-link active">💬 <span>AI Assistant</span></a>
+      <a href="/zakat-calculator" class="header-nav-link">🧮 <span>Calculator</span></a>
+      <a href="/zakat-guide" class="header-nav-link">📖 <span>Guide</span></a>
+    </div>
     <div class="header-badge" role="status" aria-label="AI online">Online</div>
   </header>
 
@@ -537,6 +659,17 @@
         </div>
         <h1 class="welcome-greeting">Assalamu Alaikum</h1>
         <p class="welcome-desc">Ask questions about Islam, Quran, Hadith, Seerah, Fiqh, and Islamic history. I am here to guide you with knowledge.</p>
+        
+        <!-- New Integrated Feature Showcase Banner -->
+        <div class="zakat-promo-banner" role="region" aria-label="Zakat Calculator Feature">
+          <div class="zakat-promo-icon">✨</div>
+          <div class="zakat-promo-text-wrap">
+            <h3 class="zakat-promo-title">New Feature: Sharia Zakat Calculator</h3>
+            <p class="zakat-promo-desc">Accurately calculate your Zakat on gold, silver, cash, crops, and business investments. Real-time Nisab thresholds supported.</p>
+          </div>
+          <a href="/zakat-calculator" class="zakat-promo-btn">Open Calculator</a>
+        </div>
+
         <div class="suggestions-grid" role="list" aria-label="Suggested questions">
           <button class="suggestion-card" role="listitem" onclick="sendSuggestion('Explain Surah Al-Fatiha — its meaning and significance in Islam')" aria-label="Suggestion: Explain Surah Al-Fatiha">
             <div class="suggestion-icon" aria-hidden="true">

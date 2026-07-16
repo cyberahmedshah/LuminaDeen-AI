@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='calculator.css') }}" />
 </head>
 <body>
 
@@ -19,18 +19,19 @@
        ====================================================== -->
   <nav class="navbar">
     <div class="nav-container">
-      <a href="index.html">
+      <a href="/">
         <div class="nav-logo">
         <span class="logo-icon">&#9632;</span>
         <span class="logo-text">nisab<span class="logo-dot">.ai</span></span>
       </div>
       </a>
       <div class="nav-links">
-        <a href="#calculator" class="nav-link">Calculator</a>
+        <a href="/" class="nav-link">💬 AI Assistant</a>
+        <a href="#calculator" class="nav-link">🧮 Calculator</a>
         <a href="#how-it-works" class="nav-link">How It Works</a>
         <a href="#faq" class="nav-link">FAQ</a>
         <!-- Req #6: Guide link in navbar -->
-        <a href="guide.html" class="nav-link">Guide</a>
+        <a href="/zakat-guide" class="nav-link">📖 Guide</a>
       </div>
       <div class="nav-cta">
         <button class="btn-primary" id="navCalculateBtn">Calculate Zakat</button>
@@ -41,10 +42,11 @@
     </div>
     <!-- Mobile menu also includes Guide -->
     <div class="mobile-menu" id="mobileMenu">
-      <a href="#calculator" class="mobile-link">Calculator</a>
+      <a href="/" class="mobile-link">💬 AI Assistant</a>
+      <a href="#calculator" class="mobile-link">🧮 Calculator</a>
       <a href="#how-it-works" class="mobile-link">How It Works</a>
       <a href="#faq" class="mobile-link">FAQ</a>
-      <a href="guide.html" class="mobile-link">Guide</a>
+      <a href="/zakat-guide" class="mobile-link">📖 Guide</a>
     </div>
   </nav>
 
@@ -598,7 +600,7 @@
           <a href="#how-it-works" class="footer-link">How Zakat Works</a>
           <a href="#faq" class="footer-link">FAQ</a>
           <!-- Req #6: Replaced "Zakat on Stocks" with "Guide" -->
-          <a href="guide.html" class="footer-link">Guide</a>
+          <a href="/zakat-guide" class="footer-link">Guide</a>
         </div>
         <div class="footer-col">
           <h4 class="footer-col-title">Team</h4>
@@ -619,6 +621,6 @@
   <!-- TOAST notification -->
   <div class="toast" id="toast"></div>
 
-  <script src="script.js"></script>
+  <script src="{{ url_for('static', filename='calculator.js') }}"></script>
 </body>
 </html>

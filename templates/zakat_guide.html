@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="guide.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='guide.css') }}" />
 </head>
 <body>
 
@@ -16,30 +16,32 @@
   <nav class="navbar">
     <div class="nav-container">
       <div class="nav-logo">
-        <a href="index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;">
+        <a href="/" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;">
           <span class="logo-icon">&#9632;</span>
           <span class="logo-text">nisab<span class="logo-dot">.ai</span></span>
         </a>
       </div>
       <div class="nav-links">
-        <a href="index.html#calculator" class="nav-link">Calculator</a>
-        <a href="index.html" class="nav-link">How It Works</a>
-        <a href="index.html#faq" class="nav-link">FAQ</a>
+        <a href="/" class="nav-link">💬 AI Assistant</a>
+        <a href="/zakat-calculator#calculator" class="nav-link">🧮 Calculator</a>
+        <a href="/zakat-calculator#how-it-works" class="nav-link">How It Works</a>
+        <a href="/zakat-calculator#faq" class="nav-link">FAQ</a>
         <!-- Guide is the current page — highlighted -->
-        <a href="guide.html" class="nav-link" style="color:#005041;font-weight:700;">Guide</a>
+        <a href="/zakat-guide" class="nav-link" style="color:#005041;font-weight:700;">📖 Guide</a>
       </div>
       <div class="nav-cta">
-        <a href="index.html#calculator" class="btn-primary">Calculate Zakat</a>
+        <a href="/zakat-calculator#calculator" class="btn-primary">Calculate Zakat</a>
       </div>
       <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
         <span></span><span></span><span></span>
       </button>
     </div>
     <div class="mobile-menu" id="mobileMenu">
-      <a href="index.html#calculator" class="mobile-link">Calculator</a>
-      <a href="index.html#how-it-works" class="mobile-link">How It Works</a>
-      <a href="index.html#faq" class="mobile-link">FAQ</a>
-      <a href="guide.html" class="mobile-link">Guide</a>
+      <a href="/" class="mobile-link">💬 AI Assistant</a>
+      <a href="/zakat-calculator#calculator" class="mobile-link">🧮 Calculator</a>
+      <a href="/zakat-calculator#how-it-works" class="mobile-link">How It Works</a>
+      <a href="/zakat-calculator#faq" class="mobile-link">FAQ</a>
+      <a href="/zakat-guide" class="mobile-link">📖 Guide</a>
     </div>
   </nav>
 
@@ -583,7 +585,7 @@
       <div class="guide-cta-inner">
         <h2>Ready to Calculate Your Zakat?</h2>
         <p>Use our free, Sharia-compliant calculator to determine your exact Zakat obligation.</p>
-        <a href="index.html#calculator" class="btn-primary btn-large">Calculate My Zakat →</a>
+        <a href="/zakat-calculator#calculator" class="btn-primary btn-large">Calculate My Zakat →</a>
       </div>
     </section>
 
@@ -603,16 +605,16 @@
       <div class="footer-links-grid">
         <div class="footer-col">
           <h4 class="footer-col-title">Tools</h4>
-          <a href="index.html#calculator" class="footer-link">Zakat Calculator</a>
+          <a href="/zakat-calculator#calculator" class="footer-link">Zakat Calculator</a>
           <!-- <a href="#" class="footer-link">Gold Price Today</a> -->
-          <a href="index.html#" class="footer-link">Nisab Threshold</a>
+          <a href="/zakat-calculator#" class="footer-link">Nisab Threshold</a>
         </div>
         <div class="footer-col">
           <h4 class="footer-col-title">Learn</h4>
-          <a href="index.html#how-it-works"  class="footer-link">How Zakat Works</a>
-          <a href="index.html#faq" class="footer-link">FAQ</a>
+          <a href="/zakat-calculator#how-it-works"  class="footer-link">How Zakat Works</a>
+          <a href="/zakat-calculator#faq" class="footer-link">FAQ</a>
           <!-- Req #6: Replaced "Zakat on Stocks" with "Guide" -->
-          <a href="guide.html" class="footer-link">Guide</a>
+          <a href="/zakat-guide" class="footer-link">Guide</a>
         </div>
         <div class="footer-col">
           <h4 class="footer-col-title">Team</h4>

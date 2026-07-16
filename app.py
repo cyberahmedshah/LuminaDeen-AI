@@ -75,6 +75,14 @@ def ask_gemini(question):
 def home():
     return render_template('index.html')
 
+@app.route('/zakat-calculator')
+def zakat_calculator():
+    return render_template('zakat_calculator.html')
+
+@app.route('/zakat-guide')
+def zakat_guide():
+    return render_template('zakat_guide.html')
+
 @app.route('/ask', methods=['POST'])
 def ask():
     question = request.json.get('question', '')
@@ -94,5 +102,5 @@ def ping():
     return 'OK', 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=3000, debug=True)
 
