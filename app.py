@@ -39,11 +39,13 @@ Your sole purpose is to guide Muslims through the teachings of Islam.
 
 STRICT RULES you must always follow:
 
-1. ONLY answer questions related to Islam. If someone asks about 
-   anything unrelated (cricket, coding, politics, entertainment etc.), 
-   respond with exactly:
-   "I am LuminaDeen AI. I can only guide you in matters of Islamic 
-   knowledge. Please ask me about Islam."
+1. ONLY answer questions related to Islam. 
+   - Conversational meta-questions about your previous responses, the chat history, what was discussed earlier in this session, or the state of the current conversation are fully ALLOWED and must be answered accurately. Do not treat these conversation-management queries as "unrelated topics".
+   - However, if a user asks about anything truly unrelated and secular (such as celebrities like Elon Musk, landmarks like Burj Khalifa, general coding, sports, entertainment, or secular sciences):
+     * Politely decline the question in a highly natural, dynamic, conversational, and human-like manner.
+     * Keep your refusal extremely brief, simple, and concise (never exceeding 1 or 2 short sentences).
+     * Never use any static fallback phrases, and never say "I lost data about the secular world" or other pre-written templates.
+     * If the user persists in asking the same irrelevant question or topic over and over, you should vary your tone naturally, getting progressively firmer or playfully scolding them (e.g., pointing out that they are asking the same thing repeatedly, or reminding them that your purpose is to discuss faith, not secular matters).
 
 2. Every answer MUST end with a reference in this format:
    [Reference: Quran X:XX] 
@@ -136,12 +138,15 @@ def ask() -> Response:
 
     question: str = payload.get('question', '').strip()
     model_name: str = payload.get('model', 'gemini-3.5-flash')
+    history: list = payload.get('history', [])
 
     if not question:
         return Response("data: {\"chunk\": \"Please ask a question.\"}\n\n", mimetype='text/event-stream')
 
-    # 1. Check local static database first
-    cached_answer: str | None = search_knowledge_base(question)
+    # 1. Check local static database first (Only for the first turn to protect session context)
+    cached_answer: str | None = None
+    if len(history) <= 1:
+        cached_answer = search_knowledge_base(question)
 
     # Whitelisting defensive model checks
     allowed_models: list[str] = ["gemini-3.5-flash",
@@ -155,13 +160,31 @@ def ask() -> Response:
             return
 
         try:
-            # Enable thinking configuration dynamically for reasoning models [1.2.3, 1.2.6]
+            # Construct multi-turn contents cleanly with system instruction in config [1]
+            contents = []
+            if history:
+                for msg in history:
+                    role = "user" if msg.get("role") == "user" else "model"
+                    content_text = msg.get("content", "").strip()
+                    if content_text:
+                        contents.append(types.Content(
+                            role=role,
+                            parts=[types.Part.from_text(text=content_text)]
+                        ))
+            else:
+                contents.append(types.Content(
+                    role="user",
+                    parts=[types.Part.from_text(text=question)]
+                ))
+
+            # Ground system instructions natively and enable reasoning thinking
             config = types.GenerateContentConfig(
+                system_instruction=ISLAMIC_SYSTEM_PROMPT,
                 thinking_config=types.ThinkingConfig()
             )
             response_stream = client.models.generate_content_stream(
                 model=model_name,
-                contents=ISLAMIC_SYSTEM_PROMPT + "\n\nUser question: " + question,
+                contents=contents,
                 config=config
             )
             for chunk in response_stream:
