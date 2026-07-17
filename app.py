@@ -61,15 +61,19 @@ def search_knowledge_base(question):
     return None  
 
 def ask_gemini(question):
-    """Call Gemini API with Islamic system prompt"""
     try:
         response = client.models.generate_content(
             model="gemini-2.5-flash",
             contents=ISLAMIC_SYSTEM_PROMPT + "\n\nUser question: " + question
         )
+        if not response.text:
+            # Gemini returned no text — likely blocked by safety filters or empty candidate
+            print(f"[Gemini empty response] question={question!r} response={response}")
+            return "I wasn't able to generate a response to that. Could you rephrase your question?"
         return response.text
     except Exception as e:
-        return f"Sorry, I am unable to help you as this question is not related to Islamic knowledge)"
+        print(f"[Gemini API error] {type(e).__name__}: {e}")
+        return "I'm having trouble reaching my knowledge source right now. Please try again in a moment."
 
 @app.route('/')
 def home():
