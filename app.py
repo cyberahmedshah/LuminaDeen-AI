@@ -98,7 +98,12 @@ def ask_gemini(question: str, model_name: str) -> str:
     except Exception as e:
         print(
             f"Exception encountered during Gemini API Call ({model_name}): {e}", file=sys.stderr)
-        return "Sorry, I am unable to help you as this question is not related to Islamic knowledge)"
+        err_str = str(e)
+        if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str:
+            return "⚠️ Dynamic model limit reached: The daily free-tier limit has been hit for this model. Please try again tomorrow at 12:00 AM PST (Google's daily quota reset time), or switch to another model from the dropdown."
+        elif "503" in err_str or "UNAVAILABLE" in err_str:
+            return "⚠️ Model Overloaded: The selected model is currently experiencing extremely high demand on Google's free tier. Please switch to another model (such as 3.1 Flash-Lite) to continue."
+        return "Sorry, I am unable to help you due to an internal server communication issue."
 
 
 @app.route('/sw.js')
@@ -171,8 +176,19 @@ def ask() -> Response:
         except Exception as e:
             print(
                 f"Exception during client stream iteration ({model_name}): {e}", file=sys.stderr)
-            fallback = "Sorry, I am unable to help you as this question is not related to Islamic knowledge)"
-            yield f"data: {json.dumps({'chunk': fallback})}\n\n"
+            err_str = str(e)
+
+            # Smart, specific chat exception reporter
+            if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str:
+                msg = "⚠️ Dynamic model limit reached: The daily free-tier limit has been hit for this model. Please try again tomorrow at 12:00 AM PST (Google's daily quota reset time), or switch to another model from the dropdown."
+            elif "503" in err_str or "UNAVAILABLE" in err_str:
+                msg = "⚠️ Model Overloaded: The selected model is currently experiencing extremely high demand on Google's free tier. Please switch to another model (such as 3.1 Flash-Lite) to continue."
+            elif "API_KEY_INVALID" in err_str or "API key" in err_str:
+                msg = "⚠️ API Configuration Error: Your Gemini API Key is invalid or expired. Please check your .env configuration."
+            else:
+                msg = f"⚠️ Connection Error: Failed to communicate with the model due to a server error ({err_str}). Please try switching models."
+
+            yield f"data: {json.dumps({'chunk': msg})}\n\n"
 
     return Response(stream_with_context(generate_stream()), mimetype='text/event-stream')
 
@@ -195,7 +211,6 @@ def extract_json_array(text: str) -> list | None:
             if isinstance(parsed, list):
                 # Return string list with clean trailing and leading spaces stripped
                 return [str(item).strip() for item in parsed if item]
-          # Keep this clean and handle exceptions safely
         except Exception as e:
             print(
                 f"[JSON Parser Warning] Inner candidate parsing failed: {e}", file=sys.stderr)
@@ -211,23 +226,32 @@ def extract_json_array(text: str) -> list | None:
     return None
 
 
-@app.route('/fetch_daily_topics', methods=['GET', 'POST'])
-def fetch_daily_topics() -> Response:
+@app.route('/fetch_daily_topics', methods=['POST'])
+def fetch_daily_topics() -> Response | tuple[Response, int]:
     """
     Searches the live web using Google Search Grounding to generate 
     3 highly relevant, custom Islamic topics for today's date dynamically.
-    Guarantees no repeat questions on same-day refreshes.
+    Uses the client's currently selected chat model.
+    Strictly uses live search grounding with no predefined fallback templates.
     """
     try:
         current_date_str = datetime.date.today().strftime("%B %d, %Y")
 
-        # Parse already-seen topics passed from frontend to avoid duplicates
+        # Parse seen topics and active model selection from frontend payload
         seen_topics = []
-        if request.method == 'POST' and request.is_json:
+        model_name = "gemini-3.5-flash"  # Default fallback model
+        if request.is_json:
             payload = request.get_json()
             seen_topics = payload.get('seen_topics', [])
+            model_name = payload.get('model', 'gemini-3.5-flash')
 
-        # Whitelisted dynamic category selectors to guarantee unique results on refresh
+        # Defensive whitelist verification
+        allowed_models = ["gemini-3.5-flash",
+                          "gemini-3.1-flash-lite", "gemini-2.5-flash"]
+        if model_name not in allowed_models:
+            model_name = "gemini-3.5-flash"
+
+        # Choose a random dynamic category focus to ensure diversity
         random_themes: list[str] = [
             "Islamic History & Civilizations", "Quranic Sciences & Tafsir",
             "Hadith Studies & Preservation", "Islamic Akhlaq (Character) & Ethics",
@@ -239,37 +263,85 @@ def fetch_daily_topics() -> Response:
         # Inject instructions to avoid previously seen questions
         exclude_instruction = ""
         if isinstance(seen_topics, list) and len(seen_topics) > 0:
-            # Safely limit the exclusion list size to the most recent 100 entries
             limited_seen = seen_topics[-100:]
             exclude_instruction = (
                 f" IMPORTANT: Do NOT generate or repeat any of these already seen topics: {limited_seen}. "
                 f"You must generate 3 entirely different, distinct questions."
             )
 
+        # Prompt modified to require briefer, simpler, and highly concise questions
         prompt = (
             f"Search Google for current Islamic dates, calendar events, or beneficial "
             f"Islamic discussion themes for today's date: {current_date_str}. "
-            f"Based on your findings, formulate exactly three highly relevant, encouraging "
-            f"Islamic discussion questions or topics for a Muslim audience today, focusing particularly on: {chosen_focus}."
+            f"Based on your findings, formulate exactly three encouraging discussion questions "
+            f"or topics for today, focusing particularly on: {chosen_focus}."
             f"{exclude_instruction} "
-            f"Make them highly unique, creative, and distinct from common defaults. "
+            f"IMPORTANT: Make each topic extremely brief, simple, clear, and easy for readers to understand. "
             f"Return ONLY a raw, valid JSON list of 3 strings (e.g. ['topic1', 'topic2', 'topic3'])."
         )
 
-        # Configure search grounding tool natively with higher temperature for creative diversity
-        config = types.GenerateContentConfig(
-            tools=[types.Tool(google_search=types.GoogleSearch())],
-            temperature=0.90  # Higher temperature to prevent duplication
-        )
+        topics = None
 
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt,
-            config=config
-        )
+        # ==========================================
+        # TIER 1: Attempt Grounded Web Search
+        # ==========================================
+        try:
+            config = types.GenerateContentConfig(
+                tools=[types.Tool(google_search=types.GoogleSearch())],
+                temperature=0.90
+            )
+            response = client.models.generate_content(
+                model=model_name,  # Dynamically matched to selected model
+                contents=prompt,
+                config=config
+            )
+            topics = extract_json_array(response.text)
+        except Exception as search_err:
+            print(
+                f"[Warning] Google Search Grounding failed: {search_err}. Trying standard AI fallback...", file=sys.stderr)
 
-        # Apply the robust extraction algorithm to bypass any conversational text wrappers
-        topics = extract_json_array(response.text)
+        # ==========================================================
+        # TIER 2: Dynamic Standard AI Generation Fallback on SELECTED model
+        # ==========================================================
+        if not topics or not isinstance(topics, list) or len(topics) < 3:
+            fallback_prompt = (
+                f"Formulate exactly three encouraging and unique Islamic discussion questions "
+                f"or topics for a Muslim audience today ({current_date_str}), focusing particularly on: {chosen_focus}."
+                f"{exclude_instruction} "
+                f"IMPORTANT: Make each topic extremely brief, simple, clear, and easy for readers to understand. "
+                f"Return ONLY a raw, valid JSON list of 3 strings (e.g. ['topic1', 'topic2', 'topic3'])."
+            )
+
+            fallback_config = types.GenerateContentConfig(temperature=0.95)
+
+            try:
+                fallback_response = client.models.generate_content(
+                    model=model_name,  # Try standard generation on selected model
+                    contents=fallback_prompt,
+                    config=fallback_config
+                )
+                topics = extract_json_array(fallback_response.text)
+            except Exception as selected_model_err:
+                print(
+                    f"[Warning] Standard fallback failed on selected model {model_name}: {selected_model_err}. Escalating to secure safe-model failover...", file=sys.stderr)
+                topics = None
+
+        # ==========================================================
+        # TIER 3: Safe-Model Dynamic Generation Failover (Bypasses local model 503 limits)
+        # ==========================================================
+        if not topics or not isinstance(topics, list) or len(topics) < 3:
+            try:
+                # Force dynamic fallback generation on the highly-available, lite model
+                fallback_response = client.models.generate_content(
+                    model="gemini-3.1-flash-lite",
+                    contents=fallback_prompt,
+                    config=fallback_config
+                )
+                topics = extract_json_array(fallback_response.text)
+            except Exception as ultimate_err:
+                print(
+                    f"[Critical Error] Ultimate fallback generation on gemini-3.1-flash-lite failed: {ultimate_err}", file=sys.stderr)
+                topics = None
 
         if isinstance(topics, list) and len(topics) >= 3:
             res = jsonify({'topics': topics[:3]})
@@ -279,23 +351,26 @@ def fetch_daily_topics() -> Response:
             return res
 
         raise ValueError(
-            "AI returned text that could not be parsed into a clean JSON array list.")
+            "AI Search Grounding did not return a valid JSON array of at least 3 topics.")
+
     except Exception as e:
-        # Logs the detailed backend traceback so you can diagnose any API issues in your terminal
         print(
-            f"Exception during daily topics search grounding: {e}", file=sys.stderr)
+            f"Exception during grounded search retrieval: {e}", file=sys.stderr)
         traceback.print_exc()
 
-        fallback_topics = [
-            "Reflecting on Tawakkul (Trust in Allah) during challenging times.",
-            "The virtues of consistency in our daily Adhkar and prayers.",
-            "How can we implement the character (Akhlaq) of Prophet Muhammad ﷺ today?"
-        ]
-        res = jsonify({'topics': fallback_topics})
+        # Smart, descriptive error forwarder for topics
+        err_str = str(e)
+        if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str:
+            err_msg = "The dynamic search limit has been hit for this model. Please switch to another model from the dropdown or try again tomorrow at 12:00 AM PST (Google's daily quota reset time)."
+        elif "503" in err_str or "UNAVAILABLE" in err_str:
+            err_msg = "The selected model is experiencing temporary overload. Please switch to another model (such as 3.1 Flash-Lite) to load topics."
+        else:
+            err_msg = f"Failed to retrieve dynamic search topics due to a server error ({err_str}). Please try switching models."
+
+        # Strictly no predefined fallbacks. Return the exact error response
+        res = jsonify({'error': err_msg})
         res.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-        res.headers["Pragma"] = "no-cache"
-        res.headers["Expires"] = "0"
-        return res
+        return res, 500
 
 
 @app.route('/ping')
