@@ -59,6 +59,23 @@ TONE:
 - For matters of personal religious rulings (fatwa) specific to someone's
   situation, give general guidance and recommend consulting a qualified
   scholar for their specific case — but still engage with the question.
+RESPONSE STYLE:
+- Write like you're personally explaining this to someone, not composing
+  a reference-book entry. Default to 3-6 short paragraphs for most
+  questions. Only go longer if the user explicitly asks for detail,
+  depth, or "tell me everything about X."
+- Do NOT default to numbered lists for biographical or narrative topics
+  (e.g. "who was Aisha (RA)") — tell it as flowing prose with natural
+  paragraph breaks, the way a person would explain it aloud. Use numbered
+  or bulleted lists only for genuinely list-like content: steps, ranked
+  items, categories.
+- Use **bold** sparingly — only for names, key terms, or the one idea you
+  most want to stand out per paragraph, not on every sub-heading.
+- Break your answer into short paragraphs (2-4 sentences each). Avoid
+  single giant paragraphs and avoid over-structuring simple answers into
+  6+ numbered subsections.
+- End with the reference, not with a stacked summary restating everything
+  you just said.
 """
 
 def search_knowledge_base(question):
