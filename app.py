@@ -93,11 +93,21 @@ def search_knowledge_base(question):
     
     return None  
 
-def ask_gemini(question):
+def ask_gemini(question, history=None):
     try:
+        # Fold prior turns (sent by the frontend from localStorage) into the
+        # prompt so follow-up questions keep context, e.g. "explain that more".
+        conversation = ""
+        if history:
+            for msg in history[-10:]:
+                speaker = "User" if msg.get("role") == "user" else "LuminaDeen AI"
+                text = (msg.get("content") or "").strip()
+                if text:
+                    conversation += f"{speaker}: {text}\n"
+
         response = client.models.generate_content(
             model="gemini-2.5-flash",
-            contents=ISLAMIC_SYSTEM_PROMPT + "\n\nUser question: " + question
+            contents=ISLAMIC_SYSTEM_PROMPT + "\n\n" + conversation + "User question: " + question
         )
         if not response.text:
             # Gemini returned no text — likely blocked by safety filters or empty candidate
@@ -107,6 +117,15 @@ def ask_gemini(question):
     except Exception as e:
         print(f"[Gemini API error] {type(e).__name__}: {e}")
         return "I'm having trouble reaching my knowledge source right now. Please try again in a moment."
+
+@app.route('/sw.js')
+def service_worker():
+    # Served from the root path (not /static/sw.js) so it can control the whole site
+    return app.send_static_file('sw.js')
+
+@app.route('/manifest.json')
+def manifest():
+    return app.send_static_file('manifest.json')
 
 @app.route('/')
 def home():
@@ -123,15 +142,18 @@ def zakat_guide():
 @app.route('/ask', methods=['POST'])
 def ask():
     question = request.json.get('question', '')
-    
+    history = request.json.get('history', [])  # [{role, content}, ...] from the saved chat
+
     if not question:
         return jsonify({'answer': 'Please ask a question.'})
-    
-    answer = search_knowledge_base(question)
-    
+
+    # Only use the instant local answers on a fresh chat, not mid-conversation,
+    # so a saved/resumed thread keeps flowing naturally through Gemini.
+    answer = search_knowledge_base(question) if not history else None
+
     if not answer:
-        answer = ask_gemini(question)
-    
+        answer = ask_gemini(question, history)
+
     return jsonify({'answer': answer})
 
 @app.route('/ping')
@@ -140,4 +162,3 @@ def ping():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)
-
