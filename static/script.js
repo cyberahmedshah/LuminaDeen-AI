@@ -562,6 +562,8 @@ function openGroundedTopics(e) {
   loadDailyGroundedTopics();
 }
 
+window.openGroundedTopics = openGroundedTopics;
+
 async function loadDailyGroundedTopics(forceRefresh = false) {
   const todayStr = getTodayString();
   const sessionData = localStorage.getItem("LUMINA_DAILY_TOPICS_SESSION");
@@ -658,6 +660,7 @@ async function loadDailyGroundedTopics(forceRefresh = false) {
     };
     const selectedLabel = modelLabels[activeModel] || activeModel;
 
+    // FIXED: Corrected error placeholder from 'text' to 'error.message'
     topicsListContainer.innerHTML = `
       <div style="color: #f87171; font-size: 13px; text-align: center; padding: 16px; line-height: 1.5;">
         ⚠️ Failed to load topics with <strong>${escapeHtml(selectedLabel)}</strong>.<br>
@@ -705,12 +708,16 @@ function refreshGroundedTopics(event) {
   loadDailyGroundedTopics(true);
 }
 
+window.refreshGroundedTopics = refreshGroundedTopics;
+
 function closeGroundedTopics(event) {
   if (event) {
     event.stopPropagation();
   }
   topicsOverlay.classList.remove("show");
 }
+
+window.closeGroundedTopics = closeGroundedTopics;
 
 // ==========================================================================
 // UI COMPONENT HANDLERS & TEXT COMPILING
@@ -720,6 +727,8 @@ function toggleThinkingBox(headerEl) {
   container.classList.toggle("expanded");
   scrollToBottom();
 }
+
+window.toggleThinkingBox = toggleThinkingBox;
 
 function createAIMessagePlaceholderDOM() {
   const el = document.createElement("div");
@@ -1105,7 +1114,7 @@ function formatInlineMarkdown(text) {
     '<strong class="highlight">$1</strong>',
   );
   formatted = formatted.replace(
-    /\*\((.*?)\*/g,
+    /\*(.*?)\*/g,
     '<em class="markdown-italic">$1</em>',
   );
   formatted = formatted.replace(
