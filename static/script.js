@@ -26,7 +26,7 @@ const modelPillText = document.getElementById("model-pill-text");
 const modelPopover = document.getElementById("model-popover");
 const modelOptionCards = document.querySelectorAll(".model-option-card");
 
-// Grounded Search Topics selectors
+// Grounded Search Topics selectors [3.5, 1.1.2]
 const topicsOverlay = document.getElementById("topics-overlay");
 const topicsListContainer = document.getElementById("topics-list-container");
 
@@ -404,6 +404,78 @@ function deleteConversation(chatId) {
   }
 }
 
+function clearAllHistory() {
+  conversations = [];
+  localStorage.removeItem("LUMINA_CONVERSATIONS");
+  renderHistoryList();
+  startNewChat();
+}
+
+function exportHistory() {
+  if (conversations.length === 0) return;
+  const dataStr =
+    "data:text/json;charset=utf-8," +
+    encodeURIComponent(JSON.stringify(conversations, null, 2));
+  const dlAnchorElem = document.createElement("a");
+  dlAnchorElem.setAttribute("href", dataStr);
+  dlAnchorElem.setAttribute("download", "LuminaDeen_Chat_Backup.json");
+  dlAnchorElem.click();
+}
+
+function triggerImport() {
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.accept = ".json";
+
+  fileInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const importedData = JSON.parse(event.target.result);
+
+        if (!Array.isArray(importedData)) {
+          throw new Error(
+            "Invalid structure. Backup file must be a JSON array.",
+          );
+        }
+
+        for (let chat of importedData) {
+          if (!chat.id || !chat.title || !Array.isArray(chat.messages)) {
+            throw new Error(
+              "Corrupted schema structure. Each conversation must contain an id, title, and message array.",
+            );
+          }
+        }
+
+        const existingIds = new Set(conversations.map((c) => c.id));
+        let importCount = 0;
+
+        for (let chat of importedData) {
+          if (!existingIds.has(chat.id)) {
+            conversations.push(chat);
+            importCount++;
+          }
+        }
+
+        if (importCount > 0) {
+          saveHistoryToStorage();
+          alert(`Successfully restored ${importCount} conversation(s)!`);
+        } else {
+          alert("No new conversations to restore.");
+        }
+      } catch (err) {
+        alert("Import rejected: " + err.message);
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  fileInput.click();
+}
+
 // ==========================================================================
 // CONVERSATION LIFECYCLE CONTROLLER
 // ==========================================================================
@@ -489,8 +561,6 @@ function openGroundedTopics(e) {
   topicsOverlay.classList.add("show");
   loadDailyGroundedTopics();
 }
-
-window.openGroundedTopics = openGroundedTopics;
 
 async function loadDailyGroundedTopics(forceRefresh = false) {
   const todayStr = getTodayString();
@@ -588,7 +658,6 @@ async function loadDailyGroundedTopics(forceRefresh = false) {
     };
     const selectedLabel = modelLabels[activeModel] || activeModel;
 
-    // FIXED: Corrected error placeholder from 'text' to 'error.message'
     topicsListContainer.innerHTML = `
       <div style="color: #f87171; font-size: 13px; text-align: center; padding: 16px; line-height: 1.5;">
         ⚠️ Failed to load topics with <strong>${escapeHtml(selectedLabel)}</strong>.<br>
@@ -636,16 +705,12 @@ function refreshGroundedTopics(event) {
   loadDailyGroundedTopics(true);
 }
 
-window.refreshGroundedTopics = refreshGroundedTopics;
-
 function closeGroundedTopics(event) {
   if (event) {
     event.stopPropagation();
   }
   topicsOverlay.classList.remove("show");
 }
-
-window.closeGroundedTopics = closeGroundedTopics;
 
 // ==========================================================================
 // UI COMPONENT HANDLERS & TEXT COMPILING
@@ -655,8 +720,6 @@ function toggleThinkingBox(headerEl) {
   container.classList.toggle("expanded");
   scrollToBottom();
 }
-
-window.toggleThinkingBox = toggleThinkingBox;
 
 function createAIMessagePlaceholderDOM() {
   const el = document.createElement("div");
@@ -1033,7 +1096,6 @@ function parseMarkdownAndArabic(text) {
 function formatInlineMarkdown(text) {
   let formatted = text;
 
-  // 1. Bold tokens conversion (**)
   formatted = formatted.replace(
     /\*\*(.*?)\*\*/g,
     '<strong class="highlight">$1</strong>',
@@ -1042,10 +1104,8 @@ function formatInlineMarkdown(text) {
     /__(.*?)__/g,
     '<strong class="highlight">$1</strong>',
   );
-
-  // 2. Italic tokens conversion (*) - FIXED: Accidental parenthesis removed from regex pattern
   formatted = formatted.replace(
-    /\*(.*?)\*/g,
+    /\*\((.*?)\*/g,
     '<em class="markdown-italic">$1</em>',
   );
   formatted = formatted.replace(
@@ -1053,7 +1113,6 @@ function formatInlineMarkdown(text) {
     '<em class="markdown-italic">$1</em>',
   );
 
-  // 3. Dynamic citation highlights
   formatted = formatted.replace(
     /\[Reference:\s*(.*?)\]/gi,
     (match, refContent) => {
@@ -1064,7 +1123,6 @@ function formatInlineMarkdown(text) {
     },
   );
 
-  // 4. Safety warning layouts
   formatted = formatted.replace(/\[⚠️\s*(.*?)\]/gi, (match, warningContent) => {
     return `<span class="warning-badge">⚠️ ${warningContent}</span>`;
   });
@@ -1085,3 +1143,14 @@ if ("serviceWorker" in navigator) {
       );
   });
 }
+
+// Expose all inline HTML event handlers globally to window
+window.toggleViewTheme = toggleViewTheme;
+window.exportHistory = exportHistory;
+window.triggerImport = triggerImport;
+window.clearAllHistory = clearAllHistory;
+window.renameProfile = renameProfile;
+window.openGroundedTopics = openGroundedTopics;
+window.refreshGroundedTopics = refreshGroundedTopics;
+window.closeGroundedTopics = closeGroundedTopics;
+window.toggleThinkingBox = toggleThinkingBox;
