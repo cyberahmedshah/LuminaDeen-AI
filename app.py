@@ -151,7 +151,7 @@ def ask_gemini(question, history=None):
         try:
             client = get_client()
             response = client.models.generate_content(
-                model="gemini-2.5-flash",
+                model="gemini-3-flash-preview",
                 contents=prompt,
             )
             if not response.text:
