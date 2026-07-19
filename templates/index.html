@@ -222,9 +222,21 @@
     font-weight: 500;
     color: var(--text-primary);
     letter-spacing: 0.01em;
-    margin-bottom: 12px;
+    margin-bottom: 6px;
     line-height: 1.15;
   }
+
+  .welcome-username {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 15px;
+    color: var(--accent-light);
+    font-weight: 400;
+    margin-bottom: 14px;
+  }
+  .welcome-username.visible { display: flex; }
 
   .welcome-desc {
     font-size: 15px;
@@ -234,6 +246,104 @@
     margin: 0 auto 36px;
     font-weight: 300;
   }
+
+  /* Name-entry modal, shown once on first visit */
+  #name-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  #name-modal-overlay.open { opacity: 1; pointer-events: auto; }
+
+  #name-modal {
+    background: var(--bg-secondary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    padding: 30px 26px 26px;
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+    transform: translateY(12px);
+    transition: transform 0.25s ease;
+  }
+  #name-modal-overlay.open #name-modal { transform: translateY(0); }
+
+  .name-modal-icon { font-size: 30px; margin-bottom: 10px; }
+
+  .name-modal-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+
+  .name-modal-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+    font-weight: 300;
+  }
+
+  .name-modal-input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-size: 15px;
+    font-family: var(--font-body);
+    margin-bottom: 14px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .name-modal-input:focus {
+    border-color: var(--border-accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  .name-modal-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, #1a4a2e, #16A34A);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+  .name-modal-btn:hover { opacity: 0.9; }
+
+  .name-modal-error {
+    display: none;
+    font-size: 12px;
+    color: #F87171;
+    margin: -8px 0 14px;
+    text-align: left;
+  }
+  .name-modal-error.visible { display: block; }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+  .name-modal-input.shake { animation: shake 0.35s ease; }
 
   .suggestions-grid {
     display: grid;
@@ -875,6 +985,19 @@
     <div id="history-list"></div>
   </aside>
 
+  <!-- Asks for the user's name on first visit, saved to localStorage so it's
+       remembered on return visits until the user edits it. -->
+  <div id="name-modal-overlay">
+    <div id="name-modal" role="dialog" aria-modal="true" aria-labelledby="name-modal-title">
+      <div class="name-modal-icon" aria-hidden="true">🌙</div>
+      <h2 id="name-modal-title" class="name-modal-title">Assalamu Alaikum</h2>
+      <p class="name-modal-desc">What should we call you?</p>
+      <input type="text" id="name-input" class="name-modal-input" placeholder="Your name" maxlength="30" autocomplete="off">
+      <p class="name-modal-error" id="name-modal-error">Please enter your name to continue</p>
+      <button id="name-save-btn" class="name-modal-btn">Continue</button>
+    </div>
+  </div>
+
   <main id="chat-area" role="main" aria-label="Chat conversation" aria-live="polite">
     <div class="messages-inner" id="messages">
 
@@ -888,6 +1011,7 @@
           </svg>
         </div>
         <h1 class="welcome-greeting">Assalamu Alaikum</h1>
+        <p class="welcome-username" id="welcome-username"></p>
         <p class="welcome-desc">Ask questions about Islam, Quran, Hadith, Seerah, Fiqh, and Islamic history. I am here to guide you with knowledge.</p>
         
         <!-- New Integrated Feature Showcase Banner -->
@@ -1088,6 +1212,7 @@
     currentChatId = null;
     currentMessages = [];
     messagesEl.innerHTML = welcomeHTML;
+    applyUserNameToUI();
     renderHistoryList();
   }
 
@@ -1107,6 +1232,77 @@
   newChatBtn.addEventListener('click', () => { startNewChat(); closeHistoryPanel(); });
 
   renderHistoryList();
+
+  // --- Personalized name greeting ---------------------------------------
+  // Saved to localStorage so it's remembered across visits until the user
+  // edits it. No backend involved — purely client-side, same technique as
+  // the chat history feature above.
+  const NAME_KEY = 'luminadeen_user_name';
+  const nameModalOverlay = document.getElementById('name-modal-overlay');
+  const nameInput = document.getElementById('name-input');
+  const nameSaveBtn = document.getElementById('name-save-btn');
+  const nameModalError = document.getElementById('name-modal-error');
+
+  function getUserName() {
+    return (localStorage.getItem(NAME_KEY) || '').trim();
+  }
+
+  function setUserName(name) {
+    localStorage.setItem(NAME_KEY, name);
+  }
+
+  function applyUserNameToUI() {
+    const name = getUserName();
+    const el = document.getElementById('welcome-username');
+    if (!el) return; // welcome screen isn't currently shown
+    if (name) {
+      el.innerHTML = `Welcome back, <strong>${escapeHtml(name)}</strong> 👋`;
+      el.classList.add('visible');
+    } else {
+      el.classList.remove('visible');
+      el.innerHTML = '';
+    }
+  }
+
+  function openNameModal() {
+    nameInput.value = '';
+    nameModalError.classList.remove('visible');
+    nameModalOverlay.classList.add('open');
+    setTimeout(() => nameInput.focus(), 150);
+  }
+
+  function closeNameModal() {
+    nameModalOverlay.classList.remove('open');
+  }
+
+  function saveName() {
+    const name = nameInput.value.trim();
+    if (!name) {
+      // Name is required — don't close, show an error and shake the input instead
+      nameModalError.classList.add('visible');
+      nameInput.classList.remove('shake');
+      void nameInput.offsetWidth; // restart the shake animation if it's already run once
+      nameInput.classList.add('shake');
+      nameInput.focus();
+      return;
+    }
+    setUserName(name);
+    applyUserNameToUI();
+    closeNameModal();
+  }
+
+  nameSaveBtn.addEventListener('click', saveName);
+  nameInput.addEventListener('input', () => nameModalError.classList.remove('visible'));
+  nameInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); saveName(); }
+  });
+
+  applyUserNameToUI();
+  if (!getUserName()) {
+    // Small delay so the modal doesn't appear jarringly instantly on load
+    setTimeout(() => openNameModal(), 600);
+  }
+  // ------------------------------------------------------------------------
 
 const defaults = [
     `Jazakallahu Khayran for your question. This topic requires deeper research. I recommend consulting a qualified Islamic scholar for an accurate answer. May Allah ﷻ grant us all beneficial knowledge. آمين`,
