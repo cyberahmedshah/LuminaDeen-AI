@@ -130,7 +130,17 @@ def ask_gemini(question, history=None):
             if text:
                 conversation += f"{speaker}: {text}\n"
 
-    prompt = ISLAMIC_SYSTEM_PROMPT + "\n\n" + conversation + "User question: " + question
+    prompt = (
+        ISLAMIC_SYSTEM_PROMPT
+        + "\n\n" + conversation
+        + "User question: " + question
+        + "\n\nReminder before you answer: if a specific Quran verse or "
+          "authentic Hadith supports your answer, cite it clearly, e.g. "
+          "[Reference: Quran 2:255] or [Reference: Sahih Bukhari 1:1]. "
+          "If your answer instead relies on general Islamic scholarship or "
+          "consensus rather than one specific verse/hadith, say so plainly "
+          "instead of forcing a citation."
+    )
 
     # Try up to once per configured key. If one key is rate-limited/out of
     # quota/erroring, move on to the next one automatically.
