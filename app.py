@@ -118,7 +118,7 @@ def search_knowledge_base(question):
     if "huffaz" in question and "yamamah" in question:
         return data.get('Battle of Yamamah')
     if "clutch" in question:
-        return data.get('who is clutch') 
+        return data.get('Who is clutch') 
 
     return None  
 
