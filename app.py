@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from google import genai
+from google.genai import types
 from dotenv import load_dotenv
 import json
 import os
@@ -117,7 +118,7 @@ def search_knowledge_base(question):
     if "huffaz" in question and "yamamah" in question:
         return data.get('Battle of Yamamah')
     if "clutch" in question:
-        return data.get('Who is clutch')  
+        return data.get('clutch')  # <-- confirm this key name matches mind.json exactly (case-sensitive)
 
     return None  
 
@@ -153,6 +154,9 @@ def ask_gemini(question, history=None):
             response = client.models.generate_content(
                 model="gemini-3-flash-preview",
                 contents=prompt,
+                config=types.GenerateContentConfig(
+                    thinking_config=types.ThinkingConfig(thinking_level="low")
+                ),
             )
             if not response.text:
                 # Gemini returned no text — likely blocked by safety filters or empty candidate
