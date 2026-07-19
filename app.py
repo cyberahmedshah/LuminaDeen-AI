@@ -116,7 +116,9 @@ def search_knowledge_base(question):
         return data.get('hey')
     if "huffaz" in question and "yamamah" in question:
         return data.get('Battle of Yamamah')
-    
+    if "clutch" in question:
+        return data.get('Who is clutch')  
+
     return None  
 
 def ask_gemini(question, history=None):
@@ -194,9 +196,11 @@ def ask():
     if not question:
         return jsonify({'answer': 'Please ask a question.'})
 
-    # Only use the instant local answers on a fresh chat, not mid-conversation,
-    # so a saved/resumed thread keeps flowing naturally through Gemini.
-    answer = search_knowledge_base(question) if not history else None
+    # Always check the local JSON answers first, even mid-conversation —
+    # this both fixes questions silently falling through to Gemini after
+    # the first message, and saves quota since matched questions never
+    # touch the Gemini API at all.
+    answer = search_knowledge_base(question)
 
     if not answer:
         answer = ask_gemini(question, history)
