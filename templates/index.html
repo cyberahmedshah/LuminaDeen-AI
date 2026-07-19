@@ -403,6 +403,29 @@
   }
   .message.ai .bubble a { color: var(--accent-light); }
 
+  /* Highlighted pill for [Reference: Quran 2:255] style citations, so they
+     visually stand out from the rest of the answer instead of blending in
+     as plain bracketed text. */
+  .message.ai .bubble .ref-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(22, 163, 74, 0.14);
+    border: 1px solid rgba(22, 163, 74, 0.35);
+    color: var(--accent-light);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 3px 10px 3px 8px;
+    border-radius: 20px;
+    margin: 4px 4px 2px 0;
+    white-space: nowrap;
+  }
+  .message.ai .bubble .ref-tag::before {
+    content: '📖';
+    font-size: 11px;
+  }
+
   .message-meta {
     font-size: 11px;
     color: var(--text-dim);
@@ -1124,12 +1147,22 @@ const defaults = [
     prompt.style.height = 'auto';
     sendBtn.disabled = true;
 
-    setTimeout(() => showTyping(), 350);
-    setTimeout(async () => {
-    removeTyping();
-    const reply = await generateResponse(text);
-    addAIMessage(reply);
-}, 1800 + Math.random() * 800);
+    showTyping();
+
+    // The typing indicator now stays on screen for as long as the real
+    // request takes — it's removed exactly when the answer (or an error)
+    // comes back, not on a fixed fake timer. This is what was making the
+    // app look "stuck" on slower Gemini replies.
+    generateResponse(text)
+      .then(reply => {
+        removeTyping();
+        addAIMessage(reply);
+      })
+      .catch(err => {
+        console.error('[generateResponse error]', err);
+        removeTyping();
+        addAIMessage("I'm having trouble reaching my knowledge source right now. Please try again in a moment.");
+      });
   }
 
   function renderUserBubble(text, time) {
@@ -1162,9 +1195,18 @@ const defaults = [
   // Converts the AI's raw Markdown (from Gemini) into safe, styled HTML.
   // marked.parse() turns **bold**, lists, paragraphs etc. into real HTML tags;
   // DOMPurify.sanitize() strips anything unsafe before it touches the page.
+  // Converts the AI's raw Markdown (from Gemini) into safe, styled HTML.
+  // marked.parse() turns **bold**, lists, paragraphs etc. into real HTML tags;
+  // then any [Reference: ...] tags get wrapped in a styled pill so they
+  // visually stand out from the rest of the answer instead of blending in
+  // as plain bracketed text; DOMPurify.sanitize() strips anything unsafe
+  // before it touches the page.
   function formatAIResponse(rawText) {
-    const html = marked.parse(rawText || '', { breaks: true });
-    return DOMPurify.sanitize(html);
+    let html = marked.parse(rawText || '', { breaks: true });
+    html = html.replace(/\[Reference:\s*([^\]]+)\]/gi, (match, refText) => {
+      return `<span class="ref-tag">${refText.trim()}</span>`;
+    });
+    return DOMPurify.sanitize(html, { ADD_ATTR: ['class'] });
   }
 
   function renderAIBubble(text, time) {
