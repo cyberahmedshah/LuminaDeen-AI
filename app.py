@@ -1,7 +1,12 @@
 from flask import Flask, render_template, request, jsonify
 from google import genai
+from dotenv import load_dotenv
 import json
 import os
+import itertools
+import threading
+
+load_dotenv()  # reads a local .env file if present (no-op in most hosted envs)
 
 app = Flask(__name__)
 
@@ -9,8 +14,29 @@ app = Flask(__name__)
 with open("mind.json", "r") as f:
     data = json.load(f)
 
-api_key = os.environ.get("GEMINI_API_KEY")
-client = genai.Client(api_key=api_key)
+# GEMINI_API_KEYS = comma-separated list of active keys, e.g.
+#   GEMINI_API_KEYS=key1,key2,key3,key4
+# Add more later (e.g. your 2 reserved keys) by editing this ONE env var —
+# no code changes needed.
+_raw_keys = os.environ.get("GEMINI_API_KEYS", "")
+API_KEYS = [k.strip() for k in _raw_keys.split(",") if k.strip()]
+
+if not API_KEYS:
+    raise RuntimeError(
+        "No API keys found. Set GEMINI_API_KEYS as a comma-separated list "
+        "in your environment (e.g. in a .env file)."
+    )
+
+print(f"[LuminaDeen] Loaded {len(API_KEYS)} Gemini API key(s).")
+
+_key_cycle = itertools.cycle(API_KEYS)
+_key_lock = threading.Lock()
+
+def get_client():
+    """Round-robins across all configured keys, one client per call."""
+    with _key_lock:
+        key = next(_key_cycle)
+    return genai.Client(api_key=key)
 
 
 ISLAMIC_SYSTEM_PROMPT = """
@@ -94,29 +120,40 @@ def search_knowledge_base(question):
     return None  
 
 def ask_gemini(question, history=None):
-    try:
-        # Fold prior turns (sent by the frontend from localStorage) into the
-        # prompt so follow-up questions keep context, e.g. "explain that more".
-        conversation = ""
-        if history:
-            for msg in history[-10:]:
-                speaker = "User" if msg.get("role") == "user" else "LuminaDeen AI"
-                text = (msg.get("content") or "").strip()
-                if text:
-                    conversation += f"{speaker}: {text}\n"
+    # Fold prior turns (sent by the frontend from localStorage) into the
+    # prompt so follow-up questions keep context, e.g. "explain that more".
+    conversation = ""
+    if history:
+        for msg in history[-10:]:
+            speaker = "User" if msg.get("role") == "user" else "LuminaDeen AI"
+            text = (msg.get("content") or "").strip()
+            if text:
+                conversation += f"{speaker}: {text}\n"
 
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=ISLAMIC_SYSTEM_PROMPT + "\n\n" + conversation + "User question: " + question
-        )
-        if not response.text:
-            # Gemini returned no text — likely blocked by safety filters or empty candidate
-            print(f"[Gemini empty response] question={question!r} response={response}")
-            return "I wasn't able to generate a response to that. Could you rephrase your question?"
-        return response.text
-    except Exception as e:
-        print(f"[Gemini API error] {type(e).__name__}: {e}")
-        return "I'm having trouble reaching my knowledge source right now. Please try again in a moment."
+    prompt = ISLAMIC_SYSTEM_PROMPT + "\n\n" + conversation + "User question: " + question
+
+    # Try up to once per configured key. If one key is rate-limited/out of
+    # quota/erroring, move on to the next one automatically.
+    last_error = None
+    for attempt in range(len(API_KEYS)):
+        try:
+            client = get_client()
+            response = client.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=prompt,
+            )
+            if not response.text:
+                # Gemini returned no text — likely blocked by safety filters or empty candidate
+                print(f"[Gemini empty response] question={question!r} response={response}")
+                return "I wasn't able to generate a response to that. Could you rephrase your question?"
+            return response.text
+        except Exception as e:
+            last_error = e
+            print(f"[Gemini API error, attempt {attempt + 1}/{len(API_KEYS)}] {type(e).__name__}: {e}")
+            continue
+
+    print(f"[Gemini API error] all keys exhausted, last error: {last_error}")
+    return "I'm having trouble reaching my knowledge source right now. Please try again in a moment."
 
 @app.route('/sw.js')
 def service_worker():
