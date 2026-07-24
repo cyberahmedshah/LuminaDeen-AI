@@ -7,7 +7,7 @@ import os
 import itertools
 import threading
 
-load_dotenv()  # reads a local .env file if present (no-op in most hosted envs)
+load_dotenv()  
 
 app = Flask(__name__)
 
@@ -15,10 +15,6 @@ app = Flask(__name__)
 with open("mind.json", "r") as f:
     data = json.load(f)
 
-# GEMINI_API_KEYS = comma-separated list of active keys, e.g.
-#   GEMINI_API_KEYS=key1,key2,key3,key4
-# Add more later (e.g. your 2 reserved keys) by editing this ONE env var —
-# no code changes needed.
 _raw_keys = os.environ.get("GEMINI_API_KEYS", "")
 API_KEYS = [k.strip() for k in _raw_keys.split(",") if k.strip()]
 
@@ -139,8 +135,6 @@ def search_knowledge_base(question):
     return None  
 
 def ask_gemini(question, history=None):
-    # Fold prior turns (sent by the frontend from localStorage) into the
-    # prompt so follow-up questions keep context, e.g. "explain that more".
     conversation = ""
     if history:
         for msg in history[-10:]:
@@ -161,8 +155,6 @@ def ask_gemini(question, history=None):
           "instead of forcing a citation."
     )
 
-    # Try up to once per configured key. If one key is rate-limited/out of
-    # quota/erroring, move on to the next one automatically.
     last_error = None
     for attempt in range(len(API_KEYS)):
         try:
@@ -175,7 +167,6 @@ def ask_gemini(question, history=None):
                 ),
             )
             if not response.text:
-                # Gemini returned no text — likely blocked by safety filters or empty candidate
                 print(f"[Gemini empty response] question={question!r} response={response}")
                 return "I wasn't able to generate a response to that. Could you rephrase your question?"
             return response.text
@@ -189,7 +180,7 @@ def ask_gemini(question, history=None):
 
 @app.route('/sw.js')
 def service_worker():
-    # Served from the root path (not /static/sw.js) so it can control the whole site
+    
     return app.send_static_file('sw.js')
 
 @app.route('/manifest.json')
@@ -211,15 +202,12 @@ def zakat_guide():
 @app.route('/ask', methods=['POST'])
 def ask():
     question = request.json.get('question', '')
-    history = request.json.get('history', [])  # [{role, content}, ...] from the saved chat
+    history = request.json.get('history', [])  
 
     if not question:
         return jsonify({'answer': 'Please ask a question.'})
 
-    # Always check the local JSON answers first, even mid-conversation —
-    # this both fixes questions silently falling through to Gemini after
-    # the first message, and saves quota since matched questions never
-    # touch the Gemini API at all.
+
     answer = search_knowledge_base(question)
 
     if not answer:
